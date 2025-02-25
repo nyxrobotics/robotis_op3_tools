@@ -14,7 +14,7 @@
    <string>OP3 Demo</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../ROBOTIS-OP3-TEST/op3_test_gui/resources/images.qrc">
+   <iconset resource="../resources/images.qrc">
     <normaloff>:/images/icon.png</normaloff>:/images/icon.png</iconset>
   </property>
   <property name="locale">
@@ -1368,7 +1368,7 @@
   <tabstop>scrollArea</tabstop>
  </tabstops>
  <resources>
-  <include location="../../../ROBOTIS-OP3-TEST/op3_test_gui/resources/images.qrc"/>
+  <include location="../resources/images.qrc"/>
  </resources>
  <connections>
   <connection>
