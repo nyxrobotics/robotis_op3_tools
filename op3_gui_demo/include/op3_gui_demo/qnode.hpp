@@ -40,6 +40,7 @@
 #include <std_msgs/Int32.h>
 #include <std_msgs/String.h>
 #include <std_msgs/Float64.h>
+#include <std_srvs/Empty.h>
 #include <sensor_msgs/JointState.h>
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/PointStamped.h>
@@ -239,6 +240,7 @@ private:
 
   // preview walking
   ros::ServiceClient humanoid_footstep_client_;
+  ros::ServiceClient humanoid_footstep_reload_param_client_;
   ros::Publisher foot_step_command_pub_;
   ros::Publisher set_walking_footsteps_pub_;
   ros::Publisher walking_param_pub_;

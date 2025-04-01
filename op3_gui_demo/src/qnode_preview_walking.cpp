@@ -44,6 +44,7 @@ void QNodeOP3::init_preview_walking(ros::NodeHandle& ros_node)
       ros_node.advertise<op3_online_walking_module_msgs::JointPose>("/robotis/online_walking/goal_joint_pose", 0);
 
   humanoid_footstep_client_ = ros_node.serviceClient<humanoid_nav_msgs::PlanFootsteps>("plan_footsteps");
+  humanoid_footstep_reload_param_client_ = ros_node.serviceClient<std_srvs::Empty>("reload_footsteps_params");
   marker_pub_ = ros_node.advertise<visualization_msgs::MarkerArray>("/robotis/demo/foot_step_marker", 0);
 
   // interacrive marker
@@ -672,6 +673,9 @@ void QNodeOP3::sendFootDistanceMsg(std_msgs::Float64 msg)
   foot_distance_pub_.publish(msg);
   // Set param
   ros::param::set("/footstep_planner/foot/separation", msg.data);
+  // Reload params
+  std_srvs::Empty reload_param;
+  humanoid_footstep_reload_param_client_.call(reload_param);
   log(Info, "Send Foot Distance");
 }
 
