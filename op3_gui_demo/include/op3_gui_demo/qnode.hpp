@@ -141,6 +141,7 @@ public:
   void sendWalkingParamMsg(op3_online_walking_module_msgs::WalkingParam msg);
   void sendBodyOffsetMsg(geometry_msgs::Pose msg);
   void sendFootDistanceMsg(std_msgs::Float64 msg);
+  void applyFootstepParam(void);
   void generateFootstepsParam(double separation, double step_x_max, double step_y_max, double step_theta_max,
                               XmlRpc::XmlRpcValue& footsteps_x, XmlRpc::XmlRpcValue& footsteps_y,
                               XmlRpc::XmlRpcValue& footsteps_theta);
@@ -166,6 +167,12 @@ public:
   bool updateInteractiveMarker(const geometry_msgs::Pose& pose);
   void getInteractiveMarkerPose();
   void clearInteractiveMarker();
+
+  // Footstep param
+  void setFootstepSeparation(double separation);
+  void setFootstepXMax(double x_max);
+  void setFootstepYMax(double y_max);
+  void setFootstepThetaMax(double theta_max);
 
   std::map<int, std::string> module_table_;
   std::map<int, std::string> motion_table_;
@@ -241,7 +248,7 @@ private:
   ros::Publisher set_walking_param_pub;
   ros::ServiceClient get_walking_param_client_;
 
-  // Footstep para
+  // Footstep param
   double footstep_separation_;
   double footstep_x_max_;
   double footstep_y_max_;

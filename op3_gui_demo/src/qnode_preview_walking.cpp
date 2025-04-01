@@ -383,6 +383,26 @@ void QNodeOP3::clearInteractiveMarker()
   interactive_marker_server_->applyChanges();
 }
 
+void QNodeOP3::setFootstepSeparation(double separation)
+{
+  footstep_separation_ = separation;
+}
+
+void QNodeOP3::setFootstepXMax(double x_max)
+{
+  footstep_x_max_ = x_max;
+}
+
+void QNodeOP3::setFootstepYMax(double y_max)
+{
+  footstep_y_max_ = y_max;
+}
+
+void QNodeOP3::setFootstepThetaMax(double theta_max)
+{
+  footstep_theta_max_ = theta_max;
+}
+
 // footstep
 void QNodeOP3::setWalkingFootsteps(const double& step_time)
 {
@@ -671,13 +691,21 @@ void QNodeOP3::sendBodyOffsetMsg(geometry_msgs::Pose msg)
 void QNodeOP3::sendFootDistanceMsg(std_msgs::Float64 msg)
 {
   foot_distance_pub_.publish(msg);
+
+  log(Info, "Send Foot Distance");
+}
+
+void QNodeOP3::applyFootstepParam(void)
+{
   // Set param
-  ros::param::set("/footstep_planner/foot/separation", msg.data);
-  footstep_separation_ = msg.data;
+  ros::param::set("/footstep_planner/foot/separation", footstep_separation_);
   // get param
-  ros::param::get("/footstep_planner/foot/max/step/x", footstep_x_max_);
-  ros::param::get("/footstep_planner/foot/max/step/y", footstep_y_max_);
-  ros::param::get("/footstep_planner/foot/max/step/theta", footstep_theta_max_);
+  ros::param::set("/footstep_planner/foot/max/step/x", footstep_x_max_);
+  ros::param::set("/footstep_planner/foot/max/step/y", footstep_y_max_);
+  ros::param::set("/footstep_planner/foot/max/step/theta", footstep_theta_max_);
+  ros::param::set("/footstep_planner/foot/max/inverse/step/x", footstep_x_max_);
+  ros::param::set("/footstep_planner/foot/max/inverse/step/y", footstep_y_max_);
+  ros::param::set("/footstep_planner/foot/max/inverse/step/theta", footstep_theta_max_);
   // generate footsteps param
   XmlRpc::XmlRpcValue footsteps_x, footsteps_y, footsteps_theta;
   generateFootstepsParam(footstep_separation_, footstep_x_max_, footstep_y_max_, footstep_theta_max_, footsteps_x,
@@ -689,7 +717,6 @@ void QNodeOP3::sendFootDistanceMsg(std_msgs::Float64 msg)
   // Reload params
   std_srvs::Empty reload_param;
   humanoid_footstep_reload_param_client_.call(reload_param);
-  log(Info, "Send Foot Distance");
 }
 
 void QNodeOP3::generateFootstepsParam(double separation, double step_x_max, double step_y_max, double step_theta_max,

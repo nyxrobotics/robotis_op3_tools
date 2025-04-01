@@ -17,6 +17,7 @@
 /* Author: Kayman Jung */
 
 #include "../include/op3_gui_demo/preview_walking_form.h"
+#include <cmath>
 
 PreviewWalkingForm::PreviewWalkingForm(QWidget* parent)
   : QWidget(parent), p_walking_ui(new Ui::PreviewWalkingForm), is_updating_(false)
@@ -153,6 +154,12 @@ void PreviewWalkingForm::on_button_footstep_plan_clicked(bool check)
 {
   geometry_msgs::Pose target_pose;
   getPoseFromMarkerPanel(target_pose);
+  qnode_op3_->setFootstepSeparation(p_walking_ui->dSpinBox_foot_distance->value());
+  qnode_op3_->setFootstepXMax(p_walking_ui->dSpinBox_p_walking_step_length->value());
+  qnode_op3_->setFootstepYMax(p_walking_ui->dSpinBox_p_walking_side_length->value());
+  qnode_op3_->setFootstepThetaMax(p_walking_ui->dSpinBox_p_walking_step_angle->value() * M_PI / 180.0);
+  qnode_op3_->applyFootstepParam();
+
   //  target_pose.position.x = p_walking_ui->dSpinBox_marker_pos_x->value();
   //  target_pose.position.y = p_walking_ui->dSpinBox_marker_pos_y->value();
   //  target_pose.position.z = p_walking_ui->dSpinBox_marker_pos_z->value();
