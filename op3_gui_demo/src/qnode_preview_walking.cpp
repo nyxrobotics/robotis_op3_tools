@@ -500,15 +500,15 @@ void QNodeOP3::makeFootstepUsingPlanner(const geometry_msgs::Pose& target_foot_p
         preview_foot_types_.push_back(foot_type);
       }
 
-      double y_feet_offset = 0.186;
-      ros::param::get("/footstep_planner/foot/separation", y_feet_offset);
+      ros::param::get("/footstep_planner/foot/separation", footstep_separation_);
+      double footstep_goal_separation = footstep_separation_;
       geometry_msgs::Pose2D target_r_foot_pose, target_l_foot_pose;
-      target_r_foot_pose.x = goal.x - (-0.5 * y_feet_offset) * sin(theta);
-      target_r_foot_pose.y = goal.y + (-0.5 * y_feet_offset) * cos(theta);
+      target_r_foot_pose.x = goal.x - (-0.5 * footstep_goal_separation) * sin(theta);
+      target_r_foot_pose.y = goal.y + (-0.5 * footstep_goal_separation) * cos(theta);
       target_r_foot_pose.theta = theta;
 
-      target_l_foot_pose.x = goal.x - (0.5 * y_feet_offset) * sin(theta);
-      target_l_foot_pose.y = goal.y + (0.5 * y_feet_offset) * cos(theta);
+      target_l_foot_pose.x = goal.x - (0.5 * footstep_goal_separation) * sin(theta);
+      target_l_foot_pose.y = goal.y + (0.5 * footstep_goal_separation) * cos(theta);
       target_l_foot_pose.theta = theta;
 
       if (preview_foot_types_[preview_foot_types_.size() - 1] ==
@@ -673,10 +673,71 @@ void QNodeOP3::sendFootDistanceMsg(std_msgs::Float64 msg)
   foot_distance_pub_.publish(msg);
   // Set param
   ros::param::set("/footstep_planner/foot/separation", msg.data);
+  footstep_separation_ = msg.data;
+  // get param
+  ros::param::get("/footstep_planner/foot/max/step/x", footstep_x_max_);
+  ros::param::get("/footstep_planner/foot/max/step/y", footstep_y_max_);
+  ros::param::get("/footstep_planner/foot/max/step/theta", footstep_theta_max_);
+  // generate footsteps param
+  XmlRpc::XmlRpcValue footsteps_x, footsteps_y, footsteps_theta;
+  generateFootstepsParam(footstep_separation_, footstep_x_max_, footstep_y_max_, footstep_theta_max_, footsteps_x,
+                         footsteps_y, footsteps_theta);
+  // Set footsteps param
+  ros::param::set("/footstep_planner/footsteps/x", footsteps_x);
+  ros::param::set("/footstep_planner/footsteps/y", footsteps_y);
+  ros::param::set("/footstep_planner/footsteps/theta", footsteps_theta);
   // Reload params
   std_srvs::Empty reload_param;
   humanoid_footstep_reload_param_client_.call(reload_param);
   log(Info, "Send Foot Distance");
+}
+
+void QNodeOP3::generateFootstepsParam(double separation, double step_x_max, double step_y_max, double step_theta_max,
+                                      XmlRpc::XmlRpcValue& footsteps_x, XmlRpc::XmlRpcValue& footsteps_y,
+                                      XmlRpc::XmlRpcValue& footsteps_theta)
+{
+  footsteps_x.clear();
+  footsteps_y.clear();
+  footsteps_theta.clear();
+  footsteps_x.setSize(12);
+  footsteps_y.setSize(12);
+  footsteps_theta.setSize(12);
+  footsteps_x[0] = 0.0;
+  footsteps_y[0] = separation;
+  footsteps_theta[0] = 0.0;
+  footsteps_x[1] = step_x_max;
+  footsteps_y[1] = separation;
+  footsteps_theta[1] = 0.0;
+  footsteps_x[2] = -0.5 * step_x_max;
+  footsteps_y[2] = separation;
+  footsteps_theta[2] = 0.0;
+  footsteps_x[3] = 0.0;
+  footsteps_y[3] = separation;
+  footsteps_theta[3] = 0.0;
+  footsteps_x[4] = step_x_max * 0.625;
+  footsteps_y[4] = separation;
+  footsteps_theta[4] = 0.0;
+  footsteps_x[5] = 0.125 * step_x_max;
+  footsteps_y[5] = separation;
+  footsteps_theta[5] = -0.5 * step_theta_max;
+  footsteps_x[6] = 0.1875 * step_x_max;
+  footsteps_y[6] = separation;
+  footsteps_theta[6] = 0.5 * step_theta_max;
+  footsteps_x[7] = 0.05 * step_x_max;
+  footsteps_y[7] = separation;
+  footsteps_theta[7] = 0.6 * step_theta_max;
+  footsteps_x[8] = -0.3824 * step_x_max;
+  footsteps_y[8] = separation;
+  footsteps_theta[8] = 0.5 * step_theta_max;
+  footsteps_x[9] = 0.75 * step_x_max;
+  footsteps_y[9] = separation;
+  footsteps_theta[9] = 0.0;
+  footsteps_x[10] = 0.5 * step_x_max;
+  footsteps_y[10] = separation;
+  footsteps_theta[10] = 0.0;
+  footsteps_x[11] = -0.25 * step_x_max;
+  footsteps_y[11] = separation;
+  footsteps_theta[11] = 0.0;
 }
 
 void QNodeOP3::sendResetBodyMsg(std_msgs::Bool msg)

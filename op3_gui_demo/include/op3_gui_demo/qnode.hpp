@@ -141,6 +141,9 @@ public:
   void sendWalkingParamMsg(op3_online_walking_module_msgs::WalkingParam msg);
   void sendBodyOffsetMsg(geometry_msgs::Pose msg);
   void sendFootDistanceMsg(std_msgs::Float64 msg);
+  void generateFootstepsParam(double separation, double step_x_max, double step_y_max, double step_theta_max,
+                              XmlRpc::XmlRpcValue& footsteps_x, XmlRpc::XmlRpcValue& footsteps_y,
+                              XmlRpc::XmlRpcValue& footsteps_theta);
   void sendResetBodyMsg(std_msgs::Bool msg);
   void sendWholebodyBalanceMsg(std_msgs::String msg);
   void parseIniPoseData(const std::string& path);
@@ -237,6 +240,12 @@ private:
   ros::Publisher set_walking_command_pub;
   ros::Publisher set_walking_param_pub;
   ros::ServiceClient get_walking_param_client_;
+
+  // Footstep para
+  double footstep_separation_;
+  double footstep_x_max_;
+  double footstep_y_max_;
+  double footstep_theta_max_;
 
   // preview walking
   ros::ServiceClient humanoid_footstep_client_;
