@@ -1,18 +1,18 @@
 /*******************************************************************************
-* Copyright 2017 ROBOTIS CO., LTD.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*******************************************************************************/
+ * Copyright 2017 ROBOTIS CO., LTD.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
 
 /* Author: Kayman Jung */
 
@@ -24,20 +24,24 @@
 
 namespace robotis_op
 {
-
-void QNodeOP3::init_preview_walking(ros::NodeHandle &ros_node)
+void QNodeOP3::init_preview_walking(ros::NodeHandle& ros_node)
 {
   // preview walking
-  foot_step_command_pub_ = ros_node.advertise<op3_online_walking_module_msgs::FootStepCommand>("/robotis/online_walking/foot_step_command", 0);
-  walking_param_pub_ = ros_node.advertise<op3_online_walking_module_msgs::WalkingParam>("/robotis/online_walking/walking_param", 0);
-  set_walking_footsteps_pub_ = ros_node.advertise<op3_online_walking_module_msgs::Step2DArray>(
-        "/robotis/online_walking/footsteps_2d", 0);
+  foot_step_command_pub_ = ros_node.advertise<op3_online_walking_module_msgs::FootStepCommand>("/robotis/"
+                                                                                               "online_walking/"
+                                                                                               "foot_step_command",
+                                                                                               0);
+  walking_param_pub_ =
+      ros_node.advertise<op3_online_walking_module_msgs::WalkingParam>("/robotis/online_walking/walking_param", 0);
+  set_walking_footsteps_pub_ =
+      ros_node.advertise<op3_online_walking_module_msgs::Step2DArray>("/robotis/online_walking/footsteps_2d", 0);
 
   body_offset_pub_ = ros_node.advertise<geometry_msgs::Pose>("/robotis/online_walking/body_offset", 0);
   foot_distance_pub_ = ros_node.advertise<std_msgs::Float64>("/robotis/online_walking/foot_distance", 0);
   wholebody_balance_pub_ = ros_node.advertise<std_msgs::String>("/robotis/online_walking/wholebody_balance_msg", 0);
   reset_body_msg_pub_ = ros_node.advertise<std_msgs::Bool>("/robotis/online_walking/reset_body", 0);
-  joint_pose_msg_pub_ = ros_node.advertise<op3_online_walking_module_msgs::JointPose>("/robotis/online_walking/goal_joint_pose", 0);
+  joint_pose_msg_pub_ =
+      ros_node.advertise<op3_online_walking_module_msgs::JointPose>("/robotis/online_walking/goal_joint_pose", 0);
 
   humanoid_footstep_client_ = ros_node.serviceClient<humanoid_nav_msgs::PlanFootsteps>("plan_footsteps");
   marker_pub_ = ros_node.advertise<visualization_msgs::MarkerArray>("/robotis/demo/foot_step_marker", 0);
@@ -49,20 +53,18 @@ void QNodeOP3::init_preview_walking(ros::NodeHandle &ros_node)
   ROS_INFO("Initialized node handle for preview walking");
 }
 
-bool QNodeOP3::transformPose(const std::string &from_id, const std::string &to_id, const geometry_msgs::Pose &from_pose, geometry_msgs::Pose &to_pose, bool inverse)
+bool QNodeOP3::transformPose(const std::string& from_id, const std::string& to_id, const geometry_msgs::Pose& from_pose,
+                             geometry_msgs::Pose& to_pose, bool inverse)
 {
   tf::StampedTransform desired_transform;
 
   try
   {
     tf_listener_->lookupTransform(from_id, to_id, ros::Time(0), desired_transform);
-    Eigen::Vector3d transform_position(desired_transform.getOrigin().x(),
-                                       desired_transform.getOrigin().y(),
+    Eigen::Vector3d transform_position(desired_transform.getOrigin().x(), desired_transform.getOrigin().y(),
                                        desired_transform.getOrigin().z());
-    Eigen::Quaterniond transform_orientation(desired_transform.getRotation().w(),
-                                             desired_transform.getRotation().x(),
-                                             desired_transform.getRotation().y(),
-                                             desired_transform.getRotation().z());
+    Eigen::Quaterniond transform_orientation(desired_transform.getRotation().w(), desired_transform.getRotation().x(),
+                                             desired_transform.getRotation().y(), desired_transform.getRotation().z());
 
     //    desired_transform.
     //    tf::Transform after_tf;
@@ -83,7 +85,7 @@ bool QNodeOP3::transformPose(const std::string &from_id, const std::string &to_i
     tf::quaternionMsgToEigen(from_pose.orientation, before_orientation);
 
     // default : world to local
-    if(inverse == false)
+    if (inverse == false)
     {
       after_position = transform_orientation.inverse().toRotationMatrix() * (before_position - transform_position);
       after_orientation = before_orientation * transform_orientation.inverse();
@@ -96,11 +98,11 @@ bool QNodeOP3::transformPose(const std::string &from_id, const std::string &to_i
 
     tf::pointEigenToMsg(after_position, to_pose.position);
     tf::quaternionEigenToMsg(after_orientation, to_pose.orientation);
-    //to_pose.position.z = from_pose.position.z;
+    // to_pose.position.z = from_pose.position.z;
   }
   catch (tf::TransformException ex)
   {
-    ROS_ERROR("%s",ex.what());
+    ROS_ERROR("%s", ex.what());
     return false;
   }
 
@@ -108,7 +110,7 @@ bool QNodeOP3::transformPose(const std::string &from_id, const std::string &to_i
 }
 
 // demo
-void QNodeOP3::pointStampedCallback(const geometry_msgs::PointStamped::ConstPtr &msg)
+void QNodeOP3::pointStampedCallback(const geometry_msgs::PointStamped::ConstPtr& msg)
 {
   ROS_INFO("get position from rviz");
 
@@ -118,19 +120,19 @@ void QNodeOP3::pointStampedCallback(const geometry_msgs::PointStamped::ConstPtr 
   geometry_msgs::Pose local_pose, world_pose;
   world_pose.position = msg->point;
   bool result = transformPose("/world", "/body_link", world_pose, local_pose);
-  if(result == false)
+  if (result == false)
   {
     log(Warn, "transformation is failed.");
     local_pose = world_pose;
   }
 
   // update point ui
-  //Q_EMIT updateDemoPoint(msg->point);
+  // Q_EMIT updateDemoPoint(msg->point);
   Q_EMIT updateDemoPoint(local_pose.position);
 }
 
 // interactive marker
-void QNodeOP3::interactiveMarkerFeedback(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback)
+void QNodeOP3::interactiveMarkerFeedback(const visualization_msgs::InteractiveMarkerFeedbackConstPtr& feedback)
 {
   // event
   switch (feedback->event_type)
@@ -141,13 +143,11 @@ void QNodeOP3::interactiveMarkerFeedback(const visualization_msgs::InteractiveMa
     case visualization_msgs::InteractiveMarkerFeedback::MENU_SELECT:
       break;
 
-    case visualization_msgs::InteractiveMarkerFeedback::POSE_UPDATE:
-    {
-
+    case visualization_msgs::InteractiveMarkerFeedback::POSE_UPDATE: {
       // transform : world to local
       geometry_msgs::Pose local_pose;
       bool result = transformPose("/world", "/body_link", feedback->pose, local_pose);
-      if(result == false)
+      if (result == false)
       {
         log(Warn, "transformation is failed.");
         local_pose = feedback->pose;
@@ -173,7 +173,7 @@ void QNodeOP3::interactiveMarkerFeedback(const visualization_msgs::InteractiveMa
   interactive_marker_server_->applyChanges();
 }
 
-void QNodeOP3::makeInteractiveMarker(const geometry_msgs::Pose &marker_pose)
+void QNodeOP3::makeInteractiveMarker(const geometry_msgs::Pose& marker_pose)
 {
   if (frame_id_ == "")
   {
@@ -183,18 +183,21 @@ void QNodeOP3::makeInteractiveMarker(const geometry_msgs::Pose &marker_pose)
     frame_id_ = "world";
   }
 
-  ROS_INFO_STREAM(
-        "Make Interactive Marker! - " << marker_pose.position.x << ", " << marker_pose.position.y << ", " << marker_pose.position.z << " [" << marker_pose.orientation.x << ", " << marker_pose.orientation.y << ", " << marker_pose.orientation.z << " | " << marker_pose.orientation.w << "]");
+  ROS_INFO_STREAM("Make Interactive Marker! - " << marker_pose.position.x << ", " << marker_pose.position.y << ", "
+                                                << marker_pose.position.z << " [" << marker_pose.orientation.x << ", "
+                                                << marker_pose.orientation.y << ", " << marker_pose.orientation.z
+                                                << " | " << marker_pose.orientation.w << "]");
 
   interactive_marker_server_->clear();
 
   // transform : local to world
   geometry_msgs::Pose world_pose;
   bool result = transformPose("/world", "/body_link", marker_pose, world_pose, true);
-  if(result == false) world_pose = marker_pose;
+  if (result == false)
+    world_pose = marker_pose;
 
   visualization_msgs::InteractiveMarker interactive_marker;
-  interactive_marker.pose = world_pose;    // set pose
+  interactive_marker.pose = world_pose;  // set pose
 
   // Visualize Interactive Marker
   interactive_marker.header.frame_id = frame_id_;
@@ -321,7 +324,7 @@ void QNodeOP3::makeInteractiveMarker(const geometry_msgs::Pose &marker_pose)
   interactive_marker_server_->applyChanges();
 }
 
-bool QNodeOP3::updateInteractiveMarker(const geometry_msgs::Pose &pose)
+bool QNodeOP3::updateInteractiveMarker(const geometry_msgs::Pose& pose)
 {
   ROS_INFO("Update Interactive Marker Pose");
 
@@ -338,7 +341,8 @@ bool QNodeOP3::updateInteractiveMarker(const geometry_msgs::Pose &pose)
   // transform : local to world
   geometry_msgs::Pose world_pose;
   bool result = transformPose("/world", "/body_link", pose, world_pose, true);
-  if(result == false) world_pose = pose;
+  if (result == false)
+    world_pose = pose;
 
   interactive_marker_server_->setPose(interactive_marker.name, world_pose);
   interactive_marker_server_->applyChanges();
@@ -360,7 +364,8 @@ void QNodeOP3::getInteractiveMarkerPose()
   // transform : world to local
   geometry_msgs::Pose local_pose;
   bool result = transformPose("/world", "/body_link", _interactive_marker.pose, local_pose);
-  if(result == false) local_pose = _interactive_marker.pose;
+  if (result == false)
+    local_pose = _interactive_marker.pose;
 
   // update pose ui
   Q_EMIT updateDemoPose(local_pose);
@@ -378,7 +383,7 @@ void QNodeOP3::clearInteractiveMarker()
 }
 
 // footstep
-void QNodeOP3::setWalkingFootsteps(const double &step_time)
+void QNodeOP3::setWalkingFootsteps(const double& step_time)
 {
   if (preview_foot_steps_.size() != preview_foot_types_.size())
   {
@@ -409,7 +414,7 @@ void QNodeOP3::setWalkingFootsteps(const double &step_time)
 
   log(Info, "Set command to walk using footsteps");
 
-  //clearFootsteps();
+  // clearFootsteps();
 }
 
 void QNodeOP3::clearFootsteps()
@@ -426,9 +431,9 @@ void QNodeOP3::makeFootstepUsingPlanner()
   makeFootstepUsingPlanner(current_pose_);
 }
 
-void QNodeOP3::makeFootstepUsingPlanner(const geometry_msgs::Pose &target_foot_pose)
+void QNodeOP3::makeFootstepUsingPlanner(const geometry_msgs::Pose& target_foot_pose)
 {
-  //foot step service
+  // foot step service
   humanoid_nav_msgs::PlanFootsteps get_step;
 
   geometry_msgs::Pose2D start;
@@ -448,8 +453,8 @@ void QNodeOP3::makeFootstepUsingPlanner(const geometry_msgs::Pose &target_foot_p
   get_step.request.goal = goal;
 
   std::stringstream call_msg;
-  call_msg << "Start [" << start.x << ", " << start.y << " | " << start.theta << "]" << " , Goal [" << goal.x << ", "
-           << goal.y << " | " << goal.theta << "]";
+  call_msg << "Start [" << start.x << ", " << start.y << " | " << start.theta << "]"
+           << " , Goal [" << goal.x << ", " << goal.y << " | " << goal.theta << "]";
   log(Info, call_msg.str());
 
   // clear visualization
@@ -497,15 +502,16 @@ void QNodeOP3::makeFootstepUsingPlanner(const geometry_msgs::Pose &target_foot_p
       double y_feet_offset = 0.186;
       ros::param::get("/footstep_planner/foot/separation", y_feet_offset);
       geometry_msgs::Pose2D target_r_foot_pose, target_l_foot_pose;
-      target_r_foot_pose.x = goal.x - (-0.5*y_feet_offset)*sin(theta);
-      target_r_foot_pose.y = goal.y + (-0.5*y_feet_offset)*cos(theta);
+      target_r_foot_pose.x = goal.x - (-0.5 * y_feet_offset) * sin(theta);
+      target_r_foot_pose.y = goal.y + (-0.5 * y_feet_offset) * cos(theta);
       target_r_foot_pose.theta = theta;
 
-      target_l_foot_pose.x = goal.x - ( 0.5*y_feet_offset)*sin(theta);
-      target_l_foot_pose.y = goal.y + ( 0.5*y_feet_offset)*cos(theta);
+      target_l_foot_pose.x = goal.x - (0.5 * y_feet_offset) * sin(theta);
+      target_l_foot_pose.y = goal.y + (0.5 * y_feet_offset) * cos(theta);
       target_l_foot_pose.theta = theta;
 
-      if(preview_foot_types_[preview_foot_types_.size() - 1] == op3_online_walking_module_msgs::Step2D::RIGHT_FOOT_SWING)
+      if (preview_foot_types_[preview_foot_types_.size() - 1] ==
+          op3_online_walking_module_msgs::Step2D::RIGHT_FOOT_SWING)
       {
         preview_foot_steps_.push_back(target_l_foot_pose);
         preview_foot_types_.push_back(op3_online_walking_module_msgs::Step2D::LEFT_FOOT_SWING);
@@ -514,7 +520,8 @@ void QNodeOP3::makeFootstepUsingPlanner(const geometry_msgs::Pose &target_foot_p
         preview_foot_steps_.push_back(target_l_foot_pose);
         preview_foot_types_.push_back(op3_online_walking_module_msgs::Step2D::LEFT_FOOT_SWING);
       }
-      else if(preview_foot_types_[preview_foot_types_.size() - 1] == op3_online_walking_module_msgs::Step2D::LEFT_FOOT_SWING)
+      else if (preview_foot_types_[preview_foot_types_.size() - 1] ==
+               op3_online_walking_module_msgs::Step2D::LEFT_FOOT_SWING)
       {
         preview_foot_steps_.push_back(target_r_foot_pose);
         preview_foot_types_.push_back(op3_online_walking_module_msgs::Step2D::RIGHT_FOOT_SWING);
@@ -573,7 +580,7 @@ void QNodeOP3::visualizePreviewFootsteps(bool clear)
 
   geometry_msgs::Pose local_pose, world_pose;
   bool result = transformPose("/world", "/body_link", world_pose, local_pose);
-  if(result == true)
+  if (result == true)
     height = local_pose.position.z;
 
   for (int ix = preview_foot_types_.size() - 1; ix >= 0; ix--)
@@ -586,8 +593,8 @@ void QNodeOP3::visualizePreviewFootsteps(bool clear)
       Eigen::Vector3d marker_position(preview_foot_steps_[ix].x, preview_foot_steps_[ix].y, height);
       Eigen::Vector3d marker_position_offset;
 
-      Eigen::Vector3d toward(1, 0, 0), direction(cos(preview_foot_steps_[ix].theta), sin(preview_foot_steps_[ix].theta),
-                                                 0);
+      Eigen::Vector3d toward(1, 0, 0),
+          direction(cos(preview_foot_steps_[ix].theta), sin(preview_foot_steps_[ix].theta), 0);
       Eigen::Quaterniond marker_orientation(Eigen::Quaterniond::FromTwoVectors(toward, direction));
 
       if (debug_)
@@ -610,7 +617,7 @@ void QNodeOP3::visualizePreviewFootsteps(bool clear)
         Eigen::Vector3d offset_y(0, 0.015, 0);
         marker_position_offset = marker_orientation.toRotationMatrix() * offset_y;
       }
-      else if (preview_foot_types_[ix] == op3_online_walking_module_msgs::Step2D::RIGHT_FOOT_SWING)  //right
+      else if (preview_foot_types_[ix] == op3_online_walking_module_msgs::Step2D::RIGHT_FOOT_SWING)  // right
       {
         rviz_marker.color.r = 1.0;
         rviz_marker.color.g = 0.0;
@@ -645,47 +652,48 @@ void QNodeOP3::visualizePreviewFootsteps(bool clear)
 void QNodeOP3::sendFootStepCommandMsg(op3_online_walking_module_msgs::FootStepCommand msg)
 {
   foot_step_command_pub_.publish(msg);
-  log( Info , "Send Foot Step Command Msg" );
+  log(Info, "Send Foot Step Command Msg");
 }
 
 void QNodeOP3::sendWalkingParamMsg(op3_online_walking_module_msgs::WalkingParam msg)
 {
   walking_param_pub_.publish(msg);
-  log( Info, "Set Walking Parameter");
+  log(Info, "Set Walking Parameter");
 }
 
 void QNodeOP3::sendBodyOffsetMsg(geometry_msgs::Pose msg)
 {
   body_offset_pub_.publish(msg);
-  log( Info, "Send Body Offset");
+  log(Info, "Send Body Offset");
 }
 
 void QNodeOP3::sendFootDistanceMsg(std_msgs::Float64 msg)
 {
   foot_distance_pub_.publish(msg);
-  log( Info, "Send Foot Distance");
+  log(Info, "Send Foot Distance");
 }
 
-void QNodeOP3::sendResetBodyMsg( std_msgs::Bool msg )
+void QNodeOP3::sendResetBodyMsg(std_msgs::Bool msg)
 {
-  reset_body_msg_pub_.publish( msg );
-  log( Info , "Reset Body Pose" );
+  reset_body_msg_pub_.publish(msg);
+  log(Info, "Reset Body Pose");
 }
 
 void QNodeOP3::sendWholebodyBalanceMsg(std_msgs::String msg)
 {
-  wholebody_balance_pub_.publish( msg );
-  log( Info , "Wholebody Balance Msg" );
+  wholebody_balance_pub_.publish(msg);
+  log(Info, "Wholebody Balance Msg");
 }
 
-void QNodeOP3::parseIniPoseData(const std::string &path)
+void QNodeOP3::parseIniPoseData(const std::string& path)
 {
   YAML::Node doc;
   try
   {
     // load yaml
     doc = YAML::LoadFile(path.c_str());
-  } catch (const std::exception& e)
+  }
+  catch (const std::exception& e)
   {
     ROS_ERROR_STREAM("Fail to load yaml file. [" << path << "]");
     return;
@@ -708,14 +716,14 @@ void QNodeOP3::parseIniPoseData(const std::string &path)
     msg.pose.position.push_back(value * DEG2RAD);
   }
 
-  sendJointPoseMsg( msg );
+  sendJointPoseMsg(msg);
 }
 
 void QNodeOP3::sendJointPoseMsg(op3_online_walking_module_msgs::JointPose msg)
 {
-  joint_pose_msg_pub_.publish( msg );
+  joint_pose_msg_pub_.publish(msg);
 
-  log( Info , "Send Joint Pose Msg" );
+  log(Info, "Send Joint Pose Msg");
 }
 
-}
+}  // namespace robotis_op
