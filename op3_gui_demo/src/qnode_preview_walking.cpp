@@ -670,6 +670,8 @@ void QNodeOP3::sendBodyOffsetMsg(geometry_msgs::Pose msg)
 void QNodeOP3::sendFootDistanceMsg(std_msgs::Float64 msg)
 {
   foot_distance_pub_.publish(msg);
+  // Set param
+  ros::param::set("/footstep_planner/foot/separation", msg.data);
   log(Info, "Send Foot Distance");
 }
 
