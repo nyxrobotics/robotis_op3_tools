@@ -1,18 +1,18 @@
 /*******************************************************************************
-* Copyright 2017 ROBOTIS CO., LTD.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*******************************************************************************/
+ * Copyright 2017 ROBOTIS CO., LTD.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
 
 /* Author: Kayman Jung */
 
@@ -72,15 +72,14 @@
 
 #endif
 
-#define DEG2RAD   (M_PI / 180.0)
-#define RAD2DEG   (180.0 / M_PI)
+#define DEG2RAD (M_PI / 180.0)
+#define RAD2DEG (180.0 / M_PI)
 /*****************************************************************************
  ** Namespaces
  *****************************************************************************/
 
 namespace robotis_op
 {
-
 /*****************************************************************************
  ** Class
  *****************************************************************************/
@@ -89,7 +88,6 @@ class QNodeOP3 : public QThread
 {
   Q_OBJECT
 public:
-
   enum LogLevel
   {
     Debug = 0,
@@ -109,53 +107,53 @@ public:
   {
     return &logging_model_;
   }
-  void log(const LogLevel &level, const std::string &msg, std::string sender = "Demo");
+  void log(const LogLevel& level, const std::string& msg, std::string sender = "Demo");
   void clearLog();
   void assemble_lidar();
-  void setJointControlMode(const robotis_controller_msgs::JointCtrlModule &msg);
-  void setControlMode(const std::string &mode);
-  bool getJointNameFromID(const int &id, std::string &joint_name);
-  bool getIDFromJointName(const std::string &joint_name, int &id);
-  bool getIDJointNameFromIndex(const int &index, int &id, std::string &joint_name);
-  std::string getModeName(const int &index);
-  int getModeIndex(const std::string &mode_name);
+  void setJointControlMode(const robotis_controller_msgs::JointCtrlModule& msg);
+  void setControlMode(const std::string& mode);
+  bool getJointNameFromID(const int& id, std::string& joint_name);
+  bool getIDFromJointName(const std::string& joint_name, int& id);
+  bool getIDJointNameFromIndex(const int& index, int& id, std::string& joint_name);
+  std::string getModeName(const int& index);
+  int getModeIndex(const std::string& mode_name);
   int getModeSize();
   int getJointSize();
   void clearUsingModule();
   bool isUsingModule(std::string module_name);
   void moveInitPose();
 
-  void init_default_demo(ros::NodeHandle &ros_node);
+  void init_default_demo(ros::NodeHandle& ros_node);
   // Head control
   void setHeadJoint(double pan, double tilt);
 
   // Walking
-  void setWalkingCommand(const std::string &command);
+  void setWalkingCommand(const std::string& command);
   void refreshWalkingParam();
   void saveWalkingParam();
-  void applyWalkingParam(const op3_walking_module_msgs::WalkingParam &walking_param);
+  void applyWalkingParam(const op3_walking_module_msgs::WalkingParam& walking_param);
   void initGyro();
 
   // Preview Walking
-  void init_preview_walking(ros::NodeHandle &ros_node);
+  void init_preview_walking(ros::NodeHandle& ros_node);
   void sendFootStepCommandMsg(op3_online_walking_module_msgs::FootStepCommand msg);
   void sendWalkingParamMsg(op3_online_walking_module_msgs::WalkingParam msg);
   void sendBodyOffsetMsg(geometry_msgs::Pose msg);
   void sendFootDistanceMsg(std_msgs::Float64 msg);
-  void sendResetBodyMsg(std_msgs::Bool msg );
+  void sendResetBodyMsg(std_msgs::Bool msg);
   void sendWholebodyBalanceMsg(std_msgs::String msg);
-  void parseIniPoseData(const std::string &path);
+  void parseIniPoseData(const std::string& path);
   void sendJointPoseMsg(op3_online_walking_module_msgs::JointPose msg);
 
   // Preview /w footstep
   void makeFootstepUsingPlanner();
-  void makeFootstepUsingPlanner(const geometry_msgs::Pose &target_foot_pose);
+  void makeFootstepUsingPlanner(const geometry_msgs::Pose& target_foot_pose);
   void visualizePreviewFootsteps(bool clear);
   void clearFootsteps();
-  void setWalkingFootsteps(const double &step_time);
+  void setWalkingFootsteps(const double& step_time);
 
   // Demo
-  void setDemoCommand(const std::string &command);
+  void setDemoCommand(const std::string& command);
   void setActionModuleBody();
   void setModuleToDemo();
 
@@ -189,19 +187,19 @@ Q_SIGNALS:
   void updateDemoPose(const geometry_msgs::Pose pose);
 
 private:
-  void parseJointNameFromYaml(const std::string &path);
-  void parseMotionMapFromYaml(const std::string &path);
-  void refreshCurrentJointControlCallback(const robotis_controller_msgs::JointCtrlModule::ConstPtr &msg);
-  void updateHeadJointStatesCallback(const sensor_msgs::JointState::ConstPtr &msg);
-  void statusMsgCallback(const robotis_controller_msgs::StatusMsg::ConstPtr &msg);
+  void parseJointNameFromYaml(const std::string& path);
+  void parseMotionMapFromYaml(const std::string& path);
+  void refreshCurrentJointControlCallback(const robotis_controller_msgs::JointCtrlModule::ConstPtr& msg);
+  void updateHeadJointStatesCallback(const sensor_msgs::JointState::ConstPtr& msg);
+  void statusMsgCallback(const robotis_controller_msgs::StatusMsg::ConstPtr& msg);
 
   // interactive marker
-  void pointStampedCallback(const geometry_msgs::PointStamped::ConstPtr &msg);
-  void interactiveMarkerFeedback(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback);
+  void pointStampedCallback(const geometry_msgs::PointStamped::ConstPtr& msg);
+  void interactiveMarkerFeedback(const visualization_msgs::InteractiveMarkerFeedbackConstPtr& feedback);
 
   // localization
-  bool transformPose(const std::string &from_id, const std::string &to_id, const geometry_msgs::Pose &from_pose,
-                     geometry_msgs::Pose &to_pose, bool inverse = false);
+  bool transformPose(const std::string& from_id, const std::string& to_id, const geometry_msgs::Pose& from_pose,
+                     geometry_msgs::Pose& to_pose, bool inverse = false);
 
   int init_argc_;
   char** init_argv_;
@@ -274,13 +272,13 @@ private:
 
 }  // namespace robotis_op
 
-template<typename T>
+template <typename T>
 T deg2rad(T deg)
 {
   return deg * M_PI / 180;
 }
 
-template<typename T>
+template <typename T>
 T rad2deg(T rad)
 {
   return rad * 180 / M_PI;
