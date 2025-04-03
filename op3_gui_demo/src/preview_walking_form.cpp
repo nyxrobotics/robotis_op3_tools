@@ -83,15 +83,8 @@ void PreviewWalkingForm::on_button_p_walking_right_clicked(bool check)
 
 void PreviewWalkingForm::on_button_set_walking_param_clicked(bool check)
 {
-  op3_online_walking_module_msgs::WalkingParam msg;
-
-  msg.dsp_ratio = p_walking_ui->dSpinBox_dsp_ratio->value();
-  msg.lipm_height = p_walking_ui->dSpinBox_lipm_height->value();
-  msg.foot_height_max = p_walking_ui->dSpinBox_foot_height_max->value();
-  msg.zmp_offset_x = p_walking_ui->dSpinBox_zmp_offset_x->value();
-  msg.zmp_offset_y = p_walking_ui->dSpinBox_zmp_offset_y->value();
-
-  qnode_op3_->sendWalkingParamMsg(msg);
+  // Reload walking parameters
+  reloadGuiLipmParameters();
 }
 
 void PreviewWalkingForm::on_button_send_body_offset_clicked(bool check)
@@ -106,21 +99,31 @@ void PreviewWalkingForm::on_button_send_body_offset_clicked(bool check)
 
 void PreviewWalkingForm::on_button_send_foot_distance_clicked(bool check)
 {
-  std_msgs::Float64 msg;
-  msg.data = p_walking_ui->dSpinBox_foot_distance->value();
-
-  qnode_op3_->sendFootDistanceMsg(msg);
+  // Set footstep left and right distance
+  std_msgs::Float64 foot_distance_msg;
+  foot_distance_msg.data = p_walking_ui->dSpinBox_foot_distance->value();
+  qnode_op3_->sendFootDistanceMsg(foot_distance_msg);
 }
 
 void PreviewWalkingForm::on_button_p_walking_init_pose_clicked(bool check)
 {
+  // Reload walking parameters
+  reloadGuiLipmParameters();
+  reloadGuiFootstepParameters();
+
+  // Initial pose motion
   std::string ini_pose_path = ros::package::getPath(ROS_PACKAGE_NAME) + "/config/init_pose.yaml";
   qnode_op3_->parseIniPoseData(ini_pose_path);
 
-  std_msgs::Bool msg;
-  msg.data = true;
+  // Initialize localization
+  std_msgs::Bool ini_pose_msg;
+  ini_pose_msg.data = true;
+  qnode_op3_->sendResetBodyMsg(ini_pose_msg);
 
-  qnode_op3_->sendResetBodyMsg(msg);
+  // Initial foot separation
+  std_msgs::Float64 foot_distance_msg;
+  foot_distance_msg.data = p_walking_ui->dSpinBox_foot_distance->value();
+  qnode_op3_->sendFootDistanceMsg(foot_distance_msg);
 }
 
 void PreviewWalkingForm::on_button_p_walking_balance_on_clicked(bool check)
@@ -152,13 +155,15 @@ void PreviewWalkingForm::on_button_marker_clear_clicked(bool check)
 
 void PreviewWalkingForm::on_button_footstep_plan_clicked(bool check)
 {
+  // Reload interactive marker
+  updateInteractiveMarker();
+
+  // Reload walking parameters
+  reloadGuiLipmParameters();
+  reloadGuiFootstepParameters();
+
   geometry_msgs::Pose target_pose;
   getPoseFromMarkerPanel(target_pose);
-  qnode_op3_->setFootstepSeparation(p_walking_ui->dSpinBox_foot_distance->value());
-  qnode_op3_->setFootstepXMax(p_walking_ui->dSpinBox_p_walking_step_length->value());
-  qnode_op3_->setFootstepYMax(p_walking_ui->dSpinBox_p_walking_side_length->value());
-  qnode_op3_->setFootstepThetaMax(p_walking_ui->dSpinBox_p_walking_step_angle->value() * M_PI / 180.0);
-  qnode_op3_->applyFootstepParam();
 
   //  target_pose.position.x = p_walking_ui->dSpinBox_marker_pos_x->value();
   //  target_pose.position.y = p_walking_ui->dSpinBox_marker_pos_y->value();
@@ -218,6 +223,28 @@ void PreviewWalkingForm::on_dSpinBox_marker_ori_p_valueChanged(double value)
 void PreviewWalkingForm::on_dSpinBox_marker_ori_y_valueChanged(double value)
 {
   updateInteractiveMarker();
+}
+
+void PreviewWalkingForm::reloadGuiLipmParameters(void)
+{
+  // Set Linear Inverted Pendulum Model (LIPM) parameters
+  op3_online_walking_module_msgs::WalkingParam walking_param_msg;
+  walking_param_msg.dsp_ratio = p_walking_ui->dSpinBox_dsp_ratio->value();
+  walking_param_msg.lipm_height = p_walking_ui->dSpinBox_lipm_height->value();
+  walking_param_msg.foot_height_max = p_walking_ui->dSpinBox_foot_height_max->value();
+  walking_param_msg.zmp_offset_x = p_walking_ui->dSpinBox_zmp_offset_x->value();
+  walking_param_msg.zmp_offset_y = p_walking_ui->dSpinBox_zmp_offset_y->value();
+  qnode_op3_->sendWalkingParamMsg(walking_param_msg);
+}
+
+void PreviewWalkingForm::reloadGuiFootstepParameters(void)
+{
+  // Set footstep left and right distance
+  qnode_op3_->setFootstepSeparation(p_walking_ui->dSpinBox_foot_distance->value());
+  qnode_op3_->setFootstepXMax(p_walking_ui->dSpinBox_p_walking_step_length->value());
+  qnode_op3_->setFootstepYMax(p_walking_ui->dSpinBox_p_walking_side_length->value());
+  qnode_op3_->setFootstepThetaMax(p_walking_ui->dSpinBox_p_walking_step_angle->value() * M_PI / 180.0);
+  qnode_op3_->applyFootstepParam();
 }
 
 void PreviewWalkingForm::sendPWalkingCommand(const std::string& command, bool set_start_foot)

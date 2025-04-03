@@ -84,6 +84,10 @@ private:
   Ui::PreviewWalkingForm* p_walking_ui;
   robotis_op::QNodeOP3* qnode_op3_;
 
+  // reload walking parameters from GUI
+  void reloadGuiLipmParameters(void);
+  void reloadGuiFootstepParameters(void);
+
   // preview walking
   void sendPWalkingCommand(const std::string& command, bool set_start_foot = true);
 
