@@ -55,7 +55,7 @@
         <property name="title">
          <string>Interactive Marker</string>
         </property>
-        <layout class="QGridLayout" name="gridLayout_10" columnstretch="0,0,0">
+        <layout class="QGridLayout" name="gridLayout_10" columnstretch="0,0">
          <item row="0" column="1">
           <layout class="QGridLayout" name="interactive_button_gridLayout">
            <item row="0" column="0">
@@ -673,7 +673,7 @@
          </widget>
         </item>
         <item row="2" column="0">
-         <layout class="QGridLayout" name="body_params_gridLayout" rowstretch="0,0,0,0,0,0" rowminimumheight="0,0,0,0,0,0">
+         <layout class="QGridLayout" name="body_params_gridLayout" rowstretch="0,0" rowminimumheight="0,0">
           <item row="0" column="1">
            <widget class="QDoubleSpinBox" name="dSpinBox_lipm_height">
             <property name="minimumSize">
