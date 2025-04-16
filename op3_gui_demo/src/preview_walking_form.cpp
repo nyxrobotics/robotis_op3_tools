@@ -84,7 +84,7 @@ void PreviewWalkingForm::on_button_p_walking_right_clicked(bool check)
 void PreviewWalkingForm::on_button_set_walking_param_clicked(bool check)
 {
   // Reload walking parameters
-  reloadGuiLipmParameters();
+  reloadGuiOnlineWalkingParameters();
 }
 
 void PreviewWalkingForm::on_button_send_body_offset_clicked(bool check)
@@ -108,7 +108,7 @@ void PreviewWalkingForm::on_button_send_foot_distance_clicked(bool check)
 void PreviewWalkingForm::on_button_p_walking_init_pose_clicked(bool check)
 {
   // Reload walking parameters
-  reloadGuiLipmParameters();
+  reloadGuiOnlineWalkingParameters();
   reloadGuiFootstepParameters();
 
   // Initial pose motion
@@ -159,7 +159,7 @@ void PreviewWalkingForm::on_button_footstep_plan_clicked(bool check)
   updateInteractiveMarker();
 
   // Reload walking parameters
-  reloadGuiLipmParameters();
+  reloadGuiOnlineWalkingParameters();
   reloadGuiFootstepParameters();
 
   geometry_msgs::Pose target_pose;
@@ -201,7 +201,7 @@ void PreviewWalkingForm::on_dSpinBox_marker_ori_y_valueChanged(double value)
   updateInteractiveMarker();
 }
 
-void PreviewWalkingForm::reloadGuiLipmParameters(void)
+void PreviewWalkingForm::reloadGuiOnlineWalkingParameters(void)
 {
   // Set Linear Inverted Pendulum Model (LIPM) parameters
   op3_online_walking_module_msgs::WalkingParam online_walking_param;
