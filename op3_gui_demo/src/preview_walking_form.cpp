@@ -206,10 +206,10 @@ void PreviewWalkingForm::reloadGuiLipmParameters(void)
   // Set Linear Inverted Pendulum Model (LIPM) parameters
   op3_online_walking_module_msgs::WalkingParam walking_param_msg;
   walking_param_msg.dsp_ratio = p_walking_ui->dSpinBox_dsp_ratio->value();
-  walking_param_msg.lipm_height = p_walking_ui->dSpinBox_lipm_height->value();
   walking_param_msg.foot_height_max = p_walking_ui->dSpinBox_foot_height_max->value();
-  walking_param_msg.zmp_offset_x = p_walking_ui->dSpinBox_zmp_offset_x->value();
-  walking_param_msg.zmp_offset_y = p_walking_ui->dSpinBox_zmp_offset_y->value();
+  // walking_param_msg.lipm_height = p_walking_ui->dSpinBox_body_offset_z->value();
+  // walking_param_msg.zmp_offset_x = p_walking_ui->dSpinBox_body_offset_x->value();
+  // walking_param_msg.zmp_offset_y = p_walking_ui->dSpinBox_body_offset_y->value();
   qnode_op3_->sendWalkingParamMsg(walking_param_msg);
 }
 
