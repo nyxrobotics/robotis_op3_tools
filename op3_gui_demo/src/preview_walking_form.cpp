@@ -165,17 +165,6 @@ void PreviewWalkingForm::on_button_footstep_plan_clicked(bool check)
   geometry_msgs::Pose target_pose;
   getPoseFromMarkerPanel(target_pose);
 
-  //  target_pose.position.x = p_walking_ui->dSpinBox_marker_pos_x->value();
-  //  target_pose.position.y = p_walking_ui->dSpinBox_marker_pos_y->value();
-  //  target_pose.position.z = p_walking_ui->dSpinBox_marker_pos_z->value();
-
-  //  double roll = deg2rad<double>(p_walking_ui->dSpinBox_marker_ori_r->value());
-  //  double pitch = deg2rad<double>(p_walking_ui->dSpinBox_marker_ori_p->value());
-  //  double yaw = deg2rad<double>(p_walking_ui->dSpinBox_marker_ori_y->value());
-
-  //  Eigen::Quaterniond orientation = rpy2quaternion(roll, pitch, yaw);
-  //  tf::quaternionEigenToMsg(orientation, target_pose.orientation);
-
   qnode_op3_->makeFootstepUsingPlanner(target_pose);
 }
 
@@ -204,19 +193,6 @@ void PreviewWalkingForm::on_dSpinBox_marker_pos_x_valueChanged(double value)
   updateInteractiveMarker();
 }
 void PreviewWalkingForm::on_dSpinBox_marker_pos_y_valueChanged(double value)
-{
-  updateInteractiveMarker();
-}
-void PreviewWalkingForm::on_dSpinBox_marker_pos_z_valueChanged(double value)
-{
-  updateInteractiveMarker();
-}
-
-void PreviewWalkingForm::on_dSpinBox_marker_ori_r_valueChanged(double value)
-{
-  updateInteractiveMarker();
-}
-void PreviewWalkingForm::on_dSpinBox_marker_ori_p_valueChanged(double value)
 {
   updateInteractiveMarker();
 }
@@ -330,11 +306,9 @@ void PreviewWalkingForm::getPoseFromMarkerPanel(geometry_msgs::Pose& current)
   // position
   current.position.x = p_walking_ui->dSpinBox_marker_pos_x->value();
   current.position.y = p_walking_ui->dSpinBox_marker_pos_y->value();
-  current.position.z = p_walking_ui->dSpinBox_marker_pos_z->value();
 
   // orientation
-  Eigen::Vector3d euler(p_walking_ui->dSpinBox_marker_ori_r->value(), p_walking_ui->dSpinBox_marker_ori_p->value(),
-                        p_walking_ui->dSpinBox_marker_ori_y->value());
+  Eigen::Vector3d euler(0, 0, p_walking_ui->dSpinBox_marker_ori_y->value());
   Eigen::Quaterniond orientation = rpy2quaternion(deg2rad<Eigen::Vector3d>(euler));
 
   tf::quaternionEigenToMsg(orientation, current.orientation);
@@ -345,13 +319,9 @@ void PreviewWalkingForm::setPoseToMarkerPanel(const geometry_msgs::Pose& current
   // position
   p_walking_ui->dSpinBox_marker_pos_x->setValue(current.position.x);
   p_walking_ui->dSpinBox_marker_pos_y->setValue(current.position.y);
-  p_walking_ui->dSpinBox_marker_pos_z->setValue(current.position.z);
 
   // orientation
   Eigen::Vector3d euler = rad2deg<Eigen::Vector3d>(quaternion2rpy(current.orientation));
-
-  p_walking_ui->dSpinBox_marker_ori_r->setValue(euler[0]);
-  p_walking_ui->dSpinBox_marker_ori_p->setValue(euler[1]);
   p_walking_ui->dSpinBox_marker_ori_y->setValue(euler[2]);
 }
 
@@ -360,7 +330,6 @@ void PreviewWalkingForm::getPointFromMarkerPanel(geometry_msgs::Point& current)
   // position
   current.x = p_walking_ui->dSpinBox_marker_pos_x->value();
   current.y = p_walking_ui->dSpinBox_marker_pos_y->value();
-  current.z = p_walking_ui->dSpinBox_marker_pos_z->value();
 }
 
 void PreviewWalkingForm::setPointToMarkerPanel(const geometry_msgs::Point& current)
@@ -368,11 +337,8 @@ void PreviewWalkingForm::setPointToMarkerPanel(const geometry_msgs::Point& curre
   // position
   p_walking_ui->dSpinBox_marker_pos_x->setValue(current.x);
   p_walking_ui->dSpinBox_marker_pos_y->setValue(current.y);
-  p_walking_ui->dSpinBox_marker_pos_z->setValue(current.z);
 
   // orientation
-  p_walking_ui->dSpinBox_marker_ori_r->setValue(0.0);
-  p_walking_ui->dSpinBox_marker_ori_p->setValue(0.0);
   p_walking_ui->dSpinBox_marker_ori_y->setValue(0.0);
 }
 

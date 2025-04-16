@@ -71,9 +71,6 @@ public Q_SLOTS:
 
   void on_dSpinBox_marker_pos_x_valueChanged(double value);
   void on_dSpinBox_marker_pos_y_valueChanged(double value);
-  void on_dSpinBox_marker_pos_z_valueChanged(double value);
-  void on_dSpinBox_marker_ori_r_valueChanged(double value);
-  void on_dSpinBox_marker_ori_p_valueChanged(double value);
   void on_dSpinBox_marker_ori_y_valueChanged(double value);
 
   // Interactive marker
