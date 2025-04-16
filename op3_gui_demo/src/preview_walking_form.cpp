@@ -207,7 +207,7 @@ void PreviewWalkingForm::reloadGuiOnlineWalkingParameters(void)
   op3_online_walking_module_msgs::WalkingParam online_walking_param;
   online_walking_param.dsp_ratio = p_walking_ui->dSpinBox_dsp_ratio->value();
   online_walking_param.foot_height_max = p_walking_ui->dSpinBox_foot_height_max->value();
-  online_walking_param.lipm_height = 0.5;
+  online_walking_param.lipm_height = p_walking_ui->dSpinBox_hip2body_z->value();
   online_walking_param.zmp_offset_x = 0;
   online_walking_param.zmp_offset_y = 0;
   qnode_op3_->sendWalkingParamMsg(online_walking_param);
