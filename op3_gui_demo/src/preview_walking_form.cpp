@@ -204,13 +204,29 @@ void PreviewWalkingForm::on_dSpinBox_marker_ori_y_valueChanged(double value)
 void PreviewWalkingForm::reloadGuiLipmParameters(void)
 {
   // Set Linear Inverted Pendulum Model (LIPM) parameters
-  op3_online_walking_module_msgs::WalkingParam walking_param_msg;
-  walking_param_msg.dsp_ratio = p_walking_ui->dSpinBox_dsp_ratio->value();
-  walking_param_msg.foot_height_max = p_walking_ui->dSpinBox_foot_height_max->value();
-  // walking_param_msg.lipm_height = p_walking_ui->dSpinBox_body_offset_z->value();
-  // walking_param_msg.zmp_offset_x = p_walking_ui->dSpinBox_body_offset_x->value();
-  // walking_param_msg.zmp_offset_y = p_walking_ui->dSpinBox_body_offset_y->value();
-  qnode_op3_->sendWalkingParamMsg(walking_param_msg);
+  op3_online_walking_module_msgs::WalkingParam online_walking_param;
+  online_walking_param.dsp_ratio = p_walking_ui->dSpinBox_dsp_ratio->value();
+  online_walking_param.foot_height_max = p_walking_ui->dSpinBox_foot_height_max->value();
+  online_walking_param.lipm_height = 0.5;
+  online_walking_param.zmp_offset_x = 0;
+  online_walking_param.zmp_offset_y = 0;
+  qnode_op3_->sendWalkingParamMsg(online_walking_param);
+  op3_walking_module_msgs::WalkingParam walking_param;
+
+  walking_param.init_x_offset = p_walking_ui->dSpinBox_body_offset_x->value();
+  walking_param.init_y_offset = p_walking_ui->dSpinBox_body_offset_y->value();
+  walking_param.init_z_offset = p_walking_ui->dSpinBox_body_offset_z->value();
+  walking_param.init_roll_offset = p_walking_ui->dSpinBox_body_offset_roll->value() * DEG2RAD;
+  walking_param.init_pitch_offset = p_walking_ui->dSpinBox_body_offset_pitch->value() * DEG2RAD;
+  walking_param.init_yaw_offset = p_walking_ui->dSpinBox_body_offset_yaw->value() * DEG2RAD;
+  walking_param.hip_pitch_offset = p_walking_ui->dSpinBox_hip_offset_pitch->value() * DEG2RAD;
+  walking_param.period_time = p_walking_ui->dSpinBox_p_walking_step_time->value() * 2.0;
+  walking_param.dsp_ratio = p_walking_ui->dSpinBox_dsp_ratio->value();
+  walking_param.x_move_amplitude = p_walking_ui->dSpinBox_p_walking_step_length->value();
+  walking_param.y_move_amplitude = p_walking_ui->dSpinBox_p_walking_side_length->value();
+  walking_param.z_move_amplitude = p_walking_ui->dSpinBox_foot_height_max->value();
+  walking_param.angle_move_amplitude = p_walking_ui->dSpinBox_p_walking_step_angle->value() * DEG2RAD;
+  qnode_op3_->applyWalkingParam(walking_param);
 }
 
 void PreviewWalkingForm::reloadGuiFootstepParameters(void)

@@ -619,7 +619,7 @@
            </widget>
           </item>
           <item row="4" column="1">
-           <widget class="QDoubleSpinBox" name="dSpinBox_pitch_offset">
+           <widget class="QDoubleSpinBox" name="dSpinBox_body_offset_pitch">
             <property name="suffix">
              <string> ˚</string>
             </property>
@@ -670,7 +670,7 @@
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="QDoubleSpinBox" name="dSpinBox_roll_offset">
+           <widget class="QDoubleSpinBox" name="dSpinBox_body_offset_roll">
             <property name="suffix">
              <string> ˚</string>
             </property>
@@ -693,7 +693,7 @@
            </widget>
           </item>
           <item row="5" column="1">
-           <widget class="QDoubleSpinBox" name="dSpinBox_yaw_offset">
+           <widget class="QDoubleSpinBox" name="dSpinBox_body_offset_yaw">
             <property name="suffix">
              <string> ˚</string>
             </property>
@@ -709,7 +709,7 @@
            </widget>
           </item>
           <item row="6" column="1">
-           <widget class="QDoubleSpinBox" name="dSpinBox_hip_pitch_offset">
+           <widget class="QDoubleSpinBox" name="dSpinBox_hip_offset_pitch">
             <property name="minimumSize">
              <size>
               <width>0</width>
