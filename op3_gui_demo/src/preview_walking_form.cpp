@@ -358,6 +358,43 @@ void PreviewWalkingForm::setPointToMarkerPanel(const geometry_msgs::Point& curre
   p_walking_ui->dSpinBox_marker_ori_y->setValue(0.0);
 }
 
+void PreviewWalkingForm::setWalkingParams(op3_walking_module_msgs::WalkingParam params)
+{
+  // init pose
+  p_walking_ui->dSpinBox_body_offset_x->setValue(params.init_x_offset);
+  p_walking_ui->dSpinBox_body_offset_y->setValue(params.init_y_offset);
+  p_walking_ui->dSpinBox_body_offset_z->setValue(params.init_z_offset);
+  p_walking_ui->dSpinBox_body_offset_roll->setValue(params.init_roll_offset * RAD2DEG);
+  p_walking_ui->dSpinBox_body_offset_pitch->setValue(params.init_pitch_offset * RAD2DEG);
+  p_walking_ui->dSpinBox_body_offset_yaw->setValue(params.init_yaw_offset * RAD2DEG);
+  p_walking_ui->dSpinBox_hip_offset_pitch->setValue(params.hip_pitch_offset * RAD2DEG);
+  // time
+  p_walking_ui->dSpinBox_p_walking_step_time->setValue(params.period_time * 0.5);  // step_time -> period_time
+  p_walking_ui->dSpinBox_dsp_ratio->setValue(params.dsp_ratio);
+  // walking
+  p_walking_ui->dSpinBox_foot_height_max->setValue(params.z_move_amplitude);
+  p_walking_ui->dSpinBox_p_walking_step_length->setValue(params.x_move_amplitude);
+  p_walking_ui->dSpinBox_p_walking_side_length->setValue(params.y_move_amplitude);
+  p_walking_ui->dSpinBox_p_walking_step_angle->setValue(params.angle_move_amplitude * RAD2DEG);
+}
+
+void PreviewWalkingForm::setOnlineWalkingParams(op3_online_walking_module_msgs::WalkingParam params)
+{
+  p_walking_ui->dSpinBox_foot_height_max->setValue(params.foot_height_max);
+  p_walking_ui->dSpinBox_hip2body_z->setValue(params.lipm_height);
+  p_walking_ui->dSpinBox_dsp_ratio->setValue(params.dsp_ratio);
+}
+
+void PreviewWalkingForm::setBodyMass(double mass)
+{
+  p_walking_ui->dSpinBox_body_mass->setValue(mass);
+}
+
+void PreviewWalkingForm::setFootDistance(double distance)
+{
+  p_walking_ui->dSpinBox_foot_distance->setValue(distance);
+}
+
 /*****************************************************************************
  ** Implementation [Util]
  *****************************************************************************/

@@ -191,7 +191,7 @@ Q_SIGNALS:
   void updateHeadAngles(double pan, double tilt);
 
   // Walking
-  void updateWalkingParameters(op3_walking_module_msgs::WalkingParam params);
+  void callSetWalkingParams2Ui(op3_walking_module_msgs::WalkingParam params);
 
   // Interactive marker
   void updateDemoPoint(const geometry_msgs::Point point);

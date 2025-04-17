@@ -1,18 +1,18 @@
 /*******************************************************************************
-* Copyright 2017 ROBOTIS CO., LTD.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*******************************************************************************/
+ * Copyright 2017 ROBOTIS CO., LTD.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
 
 /* Author: Kayman Jung */
 
@@ -24,20 +24,19 @@
 
 namespace robotis_op
 {
-
-void QNodeOP3::init_default_demo(ros::NodeHandle &ros_node)
+void QNodeOP3::init_default_demo(ros::NodeHandle& ros_node)
 {
   init_gyro_pub_ = ros_node.advertise<robotis_controller_msgs::SyncWriteItem>("/robotis/sync_write_item", 0);
   set_head_joint_angle_pub_ = ros_node.advertise<sensor_msgs::JointState>("/robotis/head_control/set_joint_states", 0);
 
-  current_joint_states_sub_ = ros_node.subscribe("/robotis/present_joint_states", 10,
-                                                 &QNodeOP3::updateHeadJointStatesCallback, this);
+  current_joint_states_sub_ =
+      ros_node.subscribe("/robotis/present_joint_states", 10, &QNodeOP3::updateHeadJointStatesCallback, this);
 
   // Walking
   set_walking_command_pub = ros_node.advertise<std_msgs::String>("/robotis/walking/command", 0);
   set_walking_param_pub = ros_node.advertise<op3_walking_module_msgs::WalkingParam>("/robotis/walking/set_params", 0);
-  get_walking_param_client_ = ros_node.serviceClient<op3_walking_module_msgs::GetWalkingParam>(
-      "/robotis/walking/get_params");
+  get_walking_param_client_ = ros_node.serviceClient<op3_walking_module_msgs::GetWalkingParam>("/robotis/walking/"
+                                                                                               "get_params");
 
   // Action
   motion_index_pub_ = ros_node.advertise<std_msgs::Int32>("/robotis/action/page_num", 0);
@@ -52,7 +51,7 @@ void QNodeOP3::init_default_demo(ros::NodeHandle &ros_node)
   ROS_INFO("Initialized node handle for default demo");
 }
 
-void QNodeOP3::updateHeadJointStatesCallback(const sensor_msgs::JointState::ConstPtr &msg)
+void QNodeOP3::updateHeadJointStatesCallback(const sensor_msgs::JointState::ConstPtr& msg)
 {
   double head_pan, head_tilt;
   int num_get = 0;
@@ -92,7 +91,7 @@ void QNodeOP3::setHeadJoint(double pan, double tilt)
 }
 
 // Walking
-void QNodeOP3::setWalkingCommand(const std::string &command)
+void QNodeOP3::setWalkingCommand(const std::string& command)
 {
   std_msgs::String _commnd_msg;
   _commnd_msg.data = command;
@@ -113,8 +112,8 @@ void QNodeOP3::refreshWalkingParam()
     walking_param_ = walking_param_msg.response.parameters;
 
     // update ui
-    Q_EMIT updateWalkingParameters(walking_param_);
-    log(Info, "Get walking parameters");
+    Q_EMIT callSetWalkingParams2Ui(walking_param_);
+    log(Info, "Refresh walking parameters");
   }
   else
     log(Error, "Fail to get walking parameters.");
@@ -129,7 +128,7 @@ void QNodeOP3::saveWalkingParam()
   log(Info, "Save Walking parameters.");
 }
 
-void QNodeOP3::applyWalkingParam(const op3_walking_module_msgs::WalkingParam &walking_param)
+void QNodeOP3::applyWalkingParam(const op3_walking_module_msgs::WalkingParam& walking_param)
 {
   walking_param_ = walking_param;
 
@@ -184,7 +183,7 @@ void QNodeOP3::playMotion(int motion_index)
 }
 
 // Demo
-void QNodeOP3::setDemoCommand(const std::string &command)
+void QNodeOP3::setDemoCommand(const std::string& command)
 {
   std_msgs::String demo_msg;
   demo_msg.data = command;
@@ -239,7 +238,6 @@ void QNodeOP3::setModuleToDemo()
       control_msg.module_name.push_back(body_module);
     else
       control_msg.module_name.push_back(head_module);
-
   }
 
   // no control
@@ -249,14 +247,15 @@ void QNodeOP3::setModuleToDemo()
   setJointControlMode(control_msg);
 }
 
-void QNodeOP3::parseMotionMapFromYaml(const std::string &path)
+void QNodeOP3::parseMotionMapFromYaml(const std::string& path)
 {
   YAML::Node doc;
   try
   {
     // load yaml
     doc = YAML::LoadFile(path.c_str());
-  } catch (const std::exception& e)
+  }
+  catch (const std::exception& e)
   {
     ROS_ERROR("Fail to load motion yaml.");
     return;
@@ -293,4 +292,4 @@ void QNodeOP3::parseMotionMapFromYaml(const std::string &path)
   }
 }
 
-}
+}  // namespace robotis_op

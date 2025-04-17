@@ -72,8 +72,8 @@ MainWindow::MainWindow(int argc, char** argv, QWidget* parent)
   QObject::connect(ui_.head_tilt_slider, SIGNAL(valueChanged(int)), this, SLOT(setHeadAngle()));
 
   qRegisterMetaType<op3_walking_module_msgs::WalkingParam>("op_walking_params");
-  QObject::connect(&qnode_op3_, SIGNAL(updateWalkingParameters(op3_walking_module_msgs::WalkingParam)), this,
-                   SLOT(updateWalkingParams(op3_walking_module_msgs::WalkingParam)));
+  QObject::connect(&qnode_op3_, SIGNAL(callSetWalkingParams2Ui(op3_walking_module_msgs::WalkingParam)), this,
+                   SLOT(setWalkingParams2Ui(op3_walking_module_msgs::WalkingParam)));
 
   /*********************
    ** Logging
@@ -412,7 +412,7 @@ void MainWindow::setHeadAngle(double pan, double tilt)
 }
 
 // walking
-void MainWindow::updateWalkingParams(op3_walking_module_msgs::WalkingParam params)
+void MainWindow::setWalkingParams2Ui(op3_walking_module_msgs::WalkingParam params)
 {
   // init pose
   ui_.dSpinBox_init_offset_x->setValue(params.init_x_offset);
@@ -426,7 +426,6 @@ void MainWindow::updateWalkingParams(op3_walking_module_msgs::WalkingParam param
   ui_.dSpinBox_period_time->setValue(params.period_time * 1000);  // s -> ms
   ui_.dSpinBox_dsp_ratio->setValue(params.dsp_ratio);
   ui_.dSpinBox_step_fb_ratio->setValue(params.step_fb_ratio);
-  ;
   // walking
   ui_.dSpinBox_x_move_amplitude->setValue(params.x_move_amplitude);
   ui_.dSpinBox_y_move_amplitude->setValue(params.y_move_amplitude);
