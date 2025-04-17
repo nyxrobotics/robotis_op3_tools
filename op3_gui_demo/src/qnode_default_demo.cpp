@@ -119,6 +119,21 @@ void QNodeOP3::refreshWalkingParam()
     log(Error, "Fail to get walking parameters.");
 }
 
+op3_walking_module_msgs::WalkingParam QNodeOP3::getWalkingParam()
+{
+  op3_walking_module_msgs::GetWalkingParam get_walking_param_msg;
+  op3_walking_module_msgs::WalkingParam walking_param;
+
+  if (get_walking_param_client_.call(get_walking_param_msg))
+  {
+    walking_param = get_walking_param_msg.response.parameters;
+    log(Info, "Get walking parameters");
+  }
+  else
+    log(Error, "Fail to get walking parameters.");
+  return walking_param;
+}
+
 void QNodeOP3::saveWalkingParam()
 {
   std_msgs::String command_msg;

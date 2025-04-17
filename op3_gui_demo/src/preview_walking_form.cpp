@@ -43,6 +43,9 @@ bool PreviewWalkingForm::init(robotis_op::QNodeOP3* qnode)
     connect(qnode_op3_, SIGNAL(updateDemoPose(geometry_msgs::Pose)), this, SLOT(updatePosePanel(geometry_msgs::Pose)));
   }
 
+  // read walking params
+  refreshWalkingParam();
+
   return result;
 }
 
@@ -210,9 +213,10 @@ void PreviewWalkingForm::reloadGuiOnlineWalkingParameters(void)
   online_walking_param.lipm_height = p_walking_ui->dSpinBox_hip2body_z->value();
   online_walking_param.zmp_offset_x = 0;
   online_walking_param.zmp_offset_y = 0;
-  qnode_op3_->sendWalkingParamMsg(online_walking_param);
-  op3_walking_module_msgs::WalkingParam walking_param;
+  qnode_op3_->applyOnlineWalkingParam(online_walking_param);
 
+  op3_walking_module_msgs::WalkingParam walking_param;
+  walking_param = qnode_op3_->getWalkingParam();
   walking_param.init_x_offset = p_walking_ui->dSpinBox_body_offset_x->value();
   walking_param.init_y_offset = p_walking_ui->dSpinBox_body_offset_y->value();
   walking_param.init_z_offset = p_walking_ui->dSpinBox_body_offset_z->value();
@@ -222,10 +226,10 @@ void PreviewWalkingForm::reloadGuiOnlineWalkingParameters(void)
   walking_param.hip_pitch_offset = p_walking_ui->dSpinBox_hip_offset_pitch->value() * DEG2RAD;
   walking_param.period_time = p_walking_ui->dSpinBox_p_walking_step_time->value() * 2.0;
   walking_param.dsp_ratio = p_walking_ui->dSpinBox_dsp_ratio->value();
-  walking_param.x_move_amplitude = p_walking_ui->dSpinBox_p_walking_step_length->value();
-  walking_param.y_move_amplitude = p_walking_ui->dSpinBox_p_walking_side_length->value();
+  // walking_param.x_move_amplitude = p_walking_ui->dSpinBox_p_walking_step_length->value();
+  // walking_param.y_move_amplitude = p_walking_ui->dSpinBox_p_walking_side_length->value();
   walking_param.z_move_amplitude = p_walking_ui->dSpinBox_foot_height_max->value();
-  walking_param.angle_move_amplitude = p_walking_ui->dSpinBox_p_walking_step_angle->value() * DEG2RAD;
+  // walking_param.angle_move_amplitude = p_walking_ui->dSpinBox_p_walking_step_angle->value() * DEG2RAD;
   qnode_op3_->applyWalkingParam(walking_param);
 }
 
@@ -358,7 +362,7 @@ void PreviewWalkingForm::setPointToMarkerPanel(const geometry_msgs::Point& curre
   p_walking_ui->dSpinBox_marker_ori_y->setValue(0.0);
 }
 
-void PreviewWalkingForm::setWalkingParams(op3_walking_module_msgs::WalkingParam params)
+void PreviewWalkingForm::setWalkingParams2Ui(op3_walking_module_msgs::WalkingParam params)
 {
   // init pose
   p_walking_ui->dSpinBox_body_offset_x->setValue(params.init_x_offset);
@@ -376,23 +380,31 @@ void PreviewWalkingForm::setWalkingParams(op3_walking_module_msgs::WalkingParam 
   p_walking_ui->dSpinBox_p_walking_step_length->setValue(params.x_move_amplitude);
   p_walking_ui->dSpinBox_p_walking_side_length->setValue(params.y_move_amplitude);
   p_walking_ui->dSpinBox_p_walking_step_angle->setValue(params.angle_move_amplitude * RAD2DEG);
+  p_walking_ui->dSpinBox_foot_distance->setValue(0.07 + params.init_y_offset);
 }
 
-void PreviewWalkingForm::setOnlineWalkingParams(op3_online_walking_module_msgs::WalkingParam params)
+void PreviewWalkingForm::setOnlineWalkingParams2Ui(op3_online_walking_module_msgs::WalkingParam params)
 {
   p_walking_ui->dSpinBox_foot_height_max->setValue(params.foot_height_max);
   p_walking_ui->dSpinBox_hip2body_z->setValue(params.lipm_height);
   p_walking_ui->dSpinBox_dsp_ratio->setValue(params.dsp_ratio);
 }
 
-void PreviewWalkingForm::setBodyMass(double mass)
+void PreviewWalkingForm::setBodyMass2Ui(double mass)
 {
   p_walking_ui->dSpinBox_body_mass->setValue(mass);
 }
 
-void PreviewWalkingForm::setFootDistance(double distance)
+void PreviewWalkingForm::setFootDistance2Ui(double distance)
 {
   p_walking_ui->dSpinBox_foot_distance->setValue(distance);
+}
+
+void PreviewWalkingForm::refreshWalkingParam()
+{
+  op3_walking_module_msgs::WalkingParam walking_param;
+  walking_param = qnode_op3_->getWalkingParam();
+  setWalkingParams2Ui(walking_param);
 }
 
 /*****************************************************************************

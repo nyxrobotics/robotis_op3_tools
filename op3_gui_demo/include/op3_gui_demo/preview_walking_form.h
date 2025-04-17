@@ -100,10 +100,11 @@ private:
   void setPointToMarkerPanel(const geometry_msgs::Point& current);
 
   // update Parameter UI
-  void setWalkingParams(op3_walking_module_msgs::WalkingParam params);
-  void setOnlineWalkingParams(op3_online_walking_module_msgs::WalkingParam params);
-  void setBodyMass(double mass);
-  void setFootDistance(double distance);
+  void setWalkingParams2Ui(op3_walking_module_msgs::WalkingParam params);
+  void setOnlineWalkingParams2Ui(op3_online_walking_module_msgs::WalkingParam params);
+  void setBodyMass2Ui(double mass);
+  void setFootDistance2Ui(double distance);
+  void refreshWalkingParam();
 
   /******************************************
    ** Transformation

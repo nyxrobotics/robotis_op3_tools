@@ -676,10 +676,10 @@ void QNodeOP3::sendFootStepCommandMsg(op3_online_walking_module_msgs::FootStepCo
   log(Info, "Send Foot Step Command Msg");
 }
 
-void QNodeOP3::sendWalkingParamMsg(op3_online_walking_module_msgs::WalkingParam msg)
+void QNodeOP3::applyOnlineWalkingParam(op3_online_walking_module_msgs::WalkingParam msg)
 {
   walking_param_pub_.publish(msg);
-  log(Info, "Set Walking Parameter");
+  log(Info, "Set Online Walking Parameter");
 }
 
 void QNodeOP3::sendBodyOffsetMsg(geometry_msgs::Pose msg)
