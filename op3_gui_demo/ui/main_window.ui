@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1110</width>
-    <height>958</height>
+    <width>1084</width>
+    <height>860</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>OP3 Demo</string>
@@ -21,117 +27,164 @@
    <locale language="English" country="Australia"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout">
+   <property name="minimumSize">
+    <size>
+     <width>400</width>
+     <height>400</height>
+    </size>
+   </property>
+   <layout class="QHBoxLayout" stretch="1,2">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetDefaultConstraint</enum>
+    </property>
     <item>
-     <widget class="QTabWidget" name="tab_manager">
+     <widget class="QWidget" name="widget_log" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="minimumSize">
        <size>
-        <width>100</width>
-        <height>100</height>
+        <width>200</width>
+        <height>400</height>
        </size>
       </property>
-      <property name="locale">
-       <locale language="English" country="Australia"/>
-      </property>
-      <property name="currentIndex">
-       <number>0</number>
-      </property>
-      <widget class="QWidget" name="tab_status">
-       <attribute name="title">
-        <string>Ros Communications</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QGroupBox" name="groupBox_log">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QPushButton" name="button_init_pose">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Robot Init Pose</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTabWidget" name="tab_manager">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="locale">
+          <locale language="English" country="Australia"/>
+         </property>
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="tab_status">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
           </property>
-          <property name="title">
-           <string>Logging</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_3">
-           <item row="1" column="0">
-            <widget class="QPushButton" name="button_clear_log">
+          <attribute name="title">
+           <string>Ros Communications</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QGroupBox" name="groupBox_log">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="minimumSize">
               <size>
-               <width>300</width>
+               <width>0</width>
                <height>0</height>
               </size>
              </property>
-             <property name="text">
-              <string>Clear</string>
+             <property name="title">
+              <string>Logging</string>
              </property>
+             <layout class="QGridLayout" name="gridLayout_3">
+              <item row="0" column="0">
+               <widget class="QListView" name="view_logging"/>
+              </item>
+              <item row="1" column="0">
+               <widget class="QPushButton" name="button_clear_log">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Clear</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QListView" name="view_logging"/>
            </item>
           </layout>
          </widget>
-        </item>
-       </layout>
-      </widget>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
     <item>
      <widget class="QWidget" name="widget_control" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>200</width>
+        <height>400</height>
+       </size>
+      </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <widget class="QGroupBox" name="groupBox_lidar">
-         <property name="title">
-          <string>Basic Control</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_5">
-          <item row="2" column="1" colspan="3">
-           <widget class="QWidget" name="widget_ft_base_module" native="true">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_7">
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-            </layout>
-           </widget>
-          </item>
-          <item row="1" column="1" colspan="3">
-           <widget class="QPushButton" name="button_init_pose">
-            <property name="text">
-             <string>Robot Init Pose</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="Line" name="line">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
        <item>
         <widget class="QTabWidget" name="tabWidget_control">
          <property name="enabled">
           <bool>true</bool>
          </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="tabPosition">
+          <enum>QTabWidget::North</enum>
+         </property>
          <property name="currentIndex">
           <number>0</number>
          </property>
+         <property name="tabBarAutoHide">
+          <bool>false</bool>
+         </property>
          <widget class="QWidget" name="tab_mode">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <attribute name="title">
            <string>Mode Control</string>
           </attribute>
@@ -146,6 +199,9 @@
             <spacer name="verticalSpacer_2">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Expanding</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>
@@ -255,6 +311,12 @@
                  </item>
                  <item row="0" column="0">
                   <widget class="QLabel" name="label_11">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>x_offset</string>
                    </property>
@@ -320,6 +382,12 @@
                  </item>
                  <item row="0" column="0">
                   <widget class="QLabel" name="label_10">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>roll_offset</string>
                    </property>
@@ -404,6 +472,12 @@
                 <layout class="QGridLayout" name="gridLayout_9">
                  <item row="0" column="0">
                   <widget class="QLabel" name="label_16">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>Period Time</string>
                    </property>
@@ -512,6 +586,12 @@
                 <layout class="QGridLayout" name="gridLayout_10">
                  <item row="0" column="0">
                   <widget class="QLabel" name="label_17">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>X Move Amplitude</string>
                    </property>
@@ -637,6 +717,12 @@
                 <layout class="QGridLayout" name="gridLayout_11">
                  <item row="1" column="0">
                   <widget class="QLabel" name="label_24">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>Hip Roll Gain</string>
                    </property>
@@ -773,6 +859,12 @@
                  </item>
                  <item row="2" column="0">
                   <widget class="QLabel" name="label_29">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>Y Swap Amplitude</string>
                    </property>
@@ -863,6 +955,12 @@
                  </item>
                  <item row="0" column="0">
                   <widget class="QPushButton" name="button_init_gyro">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>Init Gyro</string>
                    </property>
@@ -879,6 +977,12 @@
              <layout class="QHBoxLayout" name="horizontalLayout_7">
               <item>
                <widget class="QPushButton" name="button_param_refresh">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Refresh</string>
                 </property>
@@ -886,6 +990,12 @@
               </item>
               <item>
                <widget class="QPushButton" name="button_param_save">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Save</string>
                 </property>
@@ -893,6 +1003,12 @@
               </item>
               <item>
                <widget class="QPushButton" name="button_param_apply">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Apply</string>
                 </property>
@@ -919,6 +1035,12 @@
              <layout class="QHBoxLayout" name="horizontalLayout">
               <item>
                <widget class="QPushButton" name="button_walking_start">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Start</string>
                 </property>
@@ -929,6 +1051,12 @@
               </item>
               <item>
                <widget class="QPushButton" name="button_walking_stop">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Stop</string>
                 </property>
@@ -946,6 +1074,12 @@
           <property name="enabled">
            <bool>true</bool>
           </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <attribute name="title">
            <string>Head Control</string>
           </attribute>
@@ -958,6 +1092,12 @@
              <layout class="QGridLayout" name="gridLayout_6">
               <item row="1" column="3">
                <widget class="QSlider" name="head_tilt_slider">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="maximumSize">
                  <size>
                   <width>400</width>
@@ -980,6 +1120,12 @@
               </item>
               <item row="0" column="5" colspan="2">
                <widget class="QSpinBox" name="head_pan_spinbox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="suffix">
                  <string> ˚</string>
                 </property>
@@ -1009,6 +1155,12 @@
               </item>
               <item row="2" column="5" colspan="2">
                <widget class="QPushButton" name="head_center_button">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Center</string>
                 </property>
@@ -1016,6 +1168,12 @@
               </item>
               <item row="1" column="5" colspan="2">
                <widget class="QSpinBox" name="head_tilt_spinbox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="suffix">
                  <string> ˚</string>
                 </property>
@@ -1045,6 +1203,12 @@
               </item>
               <item row="0" column="0">
                <widget class="QLabel" name="label_3">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Head Pan</string>
                 </property>
@@ -1052,6 +1216,12 @@
               </item>
               <item row="0" column="3">
                <widget class="QSlider" name="head_pan_slider">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="maximumSize">
                  <size>
                   <width>400</width>
@@ -1074,6 +1244,12 @@
               </item>
               <item row="1" column="0">
                <widget class="QLabel" name="label_4">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Head Tilt</string>
                 </property>
@@ -1083,6 +1259,9 @@
                <spacer name="verticalSpacer_4">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Expanding</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
@@ -1094,6 +1273,12 @@
               </item>
               <item row="0" column="1" rowspan="2">
                <widget class="Line" name="line_4">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
                 </property>
@@ -1125,6 +1310,12 @@
           <layout class="QVBoxLayout" name="verticalLayout_8">
            <item>
             <widget class="QScrollArea" name="scrollArea">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="widgetResizable">
               <bool>true</bool>
              </property>
@@ -1149,6 +1340,12 @@
           <layout class="QGridLayout" name="gridLayout_14">
            <item row="2" column="1">
             <widget class="QPushButton" name="button_l_kick">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Left Kick</string>
              </property>
@@ -1156,6 +1353,12 @@
            </item>
            <item row="0" column="0">
             <widget class="QPushButton" name="button_demo_start">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Start Tracking</string>
              </property>
@@ -1163,6 +1366,12 @@
            </item>
            <item row="0" column="1">
             <widget class="QPushButton" name="button_demo_stop">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Stop Tracking</string>
              </property>
@@ -1170,6 +1379,12 @@
            </item>
            <item row="3" column="1">
             <widget class="QPushButton" name="button_getup_back">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Get up(Back)</string>
              </property>
@@ -1179,6 +1394,9 @@
             <spacer name="verticalSpacer_3">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Expanding</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>
@@ -1190,6 +1408,12 @@
            </item>
            <item row="2" column="0">
             <widget class="QPushButton" name="button_r_kick">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Right Kick</string>
              </property>
@@ -1197,6 +1421,12 @@
            </item>
            <item row="3" column="0">
             <widget class="QPushButton" name="button_getup_front">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Get up(Front)</string>
              </property>
@@ -1204,6 +1434,12 @@
            </item>
            <item row="1" column="0" colspan="2">
             <widget class="Line" name="line_6">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -1219,7 +1455,7 @@
            <item>
             <widget class="PreviewWalkingForm" name="widget_preview_walking" native="true">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -1241,10 +1477,13 @@
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>697</width>
-           <height>20</height>
+           <width>200</width>
+           <height>10</height>
           </size>
          </property>
         </spacer>
@@ -1259,7 +1498,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1110</width>
+     <width>1084</width>
      <height>21</height>
     </rect>
    </property>
@@ -1313,10 +1552,8 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>tab_manager</tabstop>
   <tabstop>view_logging</tabstop>
   <tabstop>button_clear_log</tabstop>
-  <tabstop>button_init_pose</tabstop>
   <tabstop>tabWidget_control</tabstop>
   <tabstop>button_walking_start</tabstop>
   <tabstop>button_walking_stop</tabstop>
