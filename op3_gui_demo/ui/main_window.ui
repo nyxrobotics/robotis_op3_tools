@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1477</width>
-    <height>976</height>
+    <width>1110</width>
+    <height>958</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -183,7 +183,7 @@
                  <item row="2" column="1" colspan="2">
                   <widget class="QDoubleSpinBox" name="dSpinBox_init_offset_z">
                    <property name="suffix">
-                    <string extracomment="m"> ｍ</string>
+                    <string extracomment="m"> m</string>
                    </property>
                    <property name="decimals">
                     <number>3</number>
@@ -205,14 +205,14 @@
                  <item row="2" column="0">
                   <widget class="QLabel" name="label_13">
                    <property name="text">
-                    <string>Z</string>
+                    <string>z_offset</string>
                    </property>
                   </widget>
                  </item>
                  <item row="0" column="1" colspan="2">
                   <widget class="QDoubleSpinBox" name="dSpinBox_init_offset_x">
                    <property name="suffix">
-                    <string extracomment="m"> ｍ</string>
+                    <string extracomment="m"> m</string>
                    </property>
                    <property name="decimals">
                     <number>3</number>
@@ -234,7 +234,7 @@
                  <item row="1" column="1" colspan="2">
                   <widget class="QDoubleSpinBox" name="dSpinBox_init_offset_y">
                    <property name="suffix">
-                    <string extracomment="m"> ｍ</string>
+                    <string extracomment="m"> m</string>
                    </property>
                    <property name="decimals">
                     <number>3</number>
@@ -256,14 +256,14 @@
                  <item row="0" column="0">
                   <widget class="QLabel" name="label_11">
                    <property name="text">
-                    <string>X</string>
+                    <string>x_offset</string>
                    </property>
                   </widget>
                  </item>
                  <item row="1" column="0">
                   <widget class="QLabel" name="label_12">
                    <property name="text">
-                    <string>Y</string>
+                    <string>y_offset</string>
                    </property>
                   </widget>
                  </item>
@@ -292,7 +292,7 @@
                     <string> ﾟ</string>
                    </property>
                    <property name="decimals">
-                    <number>1</number>
+                    <number>3</number>
                    </property>
                    <property name="minimum">
                     <double>-180.000000000000000</double>
@@ -308,7 +308,7 @@
                     <string> ﾟ</string>
                    </property>
                    <property name="decimals">
-                    <number>1</number>
+                    <number>3</number>
                    </property>
                    <property name="minimum">
                     <double>-180.000000000000000</double>
@@ -321,21 +321,21 @@
                  <item row="0" column="0">
                   <widget class="QLabel" name="label_10">
                    <property name="text">
-                    <string>Roll</string>
+                    <string>roll_offset</string>
                    </property>
                   </widget>
                  </item>
                  <item row="2" column="0">
                   <widget class="QLabel" name="label_15">
                    <property name="text">
-                    <string>Yaw</string>
+                    <string>yaw_offset</string>
                    </property>
                   </widget>
                  </item>
                  <item row="1" column="0">
                   <widget class="QLabel" name="label_14">
                    <property name="text">
-                    <string>Pitch</string>
+                    <string>pitch_offset</string>
                    </property>
                   </widget>
                  </item>
@@ -345,7 +345,7 @@
                     <string> ﾟ</string>
                    </property>
                    <property name="decimals">
-                    <number>1</number>
+                    <number>3</number>
                    </property>
                    <property name="minimum">
                     <double>-180.000000000000000</double>
@@ -358,7 +358,7 @@
                  <item row="3" column="0">
                   <widget class="QLabel" name="label_33">
                    <property name="text">
-                    <string>Hip Pitch Offset</string>
+                    <string>hip_pitch_offset</string>
                    </property>
                   </widget>
                  </item>
@@ -368,7 +368,7 @@
                     <string> ﾟ</string>
                    </property>
                    <property name="decimals">
-                    <number>1</number>
+                    <number>3</number>
                    </property>
                    <property name="minimum">
                     <double>-180.000000000000000</double>
@@ -482,7 +482,7 @@
                  <item row="0" column="1" colspan="2">
                   <widget class="QDoubleSpinBox" name="dSpinBox_period_time">
                    <property name="suffix">
-                    <string> ㎳</string>
+                    <string> ms</string>
                    </property>
                    <property name="decimals">
                     <number>0</number>
@@ -534,7 +534,7 @@
                  <item row="0" column="1">
                   <widget class="QDoubleSpinBox" name="dSpinBox_x_move_amplitude">
                    <property name="suffix">
-                    <string> ｍ</string>
+                    <string> m</string>
                    </property>
                    <property name="decimals">
                     <number>3</number>
@@ -560,7 +560,7 @@
                  <item row="1" column="1">
                   <widget class="QDoubleSpinBox" name="dSpinBox_y_move_amplitude">
                    <property name="suffix">
-                    <string> ｍ</string>
+                    <string> m</string>
                    </property>
                    <property name="decimals">
                     <number>3</number>
@@ -579,7 +579,7 @@
                  <item row="2" column="1">
                   <widget class="QDoubleSpinBox" name="dSpinBox_z_move_amplitude">
                    <property name="suffix">
-                    <string> ｍ</string>
+                    <string> m</string>
                    </property>
                    <property name="decimals">
                     <number>3</number>
@@ -781,7 +781,7 @@
                  <item row="3" column="1">
                   <widget class="QDoubleSpinBox" name="dSpinBox_z_swap_amplitude">
                    <property name="suffix">
-                    <string> ｍ</string>
+                    <string> m</string>
                    </property>
                    <property name="decimals">
                     <number>3</number>
@@ -823,7 +823,7 @@
                  <item row="2" column="1">
                   <widget class="QDoubleSpinBox" name="dSpinBox_y_swap_amplitude">
                    <property name="suffix">
-                    <string> ｍ</string>
+                    <string> m</string>
                    </property>
                    <property name="decimals">
                     <number>3</number>
@@ -1133,8 +1133,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>98</width>
-                <height>28</height>
+                <width>698</width>
+                <height>715</height>
                </rect>
               </property>
              </widget>
@@ -1236,12 +1236,12 @@
          </widget>
         </widget>
        </item>
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
           <size>
            <width>697</width>
            <height>20</height>
@@ -1259,7 +1259,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1477</width>
+     <width>1110</width>
      <height>21</height>
     </rect>
    </property>

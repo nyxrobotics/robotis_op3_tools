@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>658</width>
+    <width>601</width>
     <height>665</height>
    </rect>
   </property>
@@ -98,7 +98,7 @@
              </size>
             </property>
             <property name="text">
-             <string>Step Time [sec]</string>
+             <string>Step Time</string>
             </property>
            </widget>
           </item>
@@ -109,6 +109,9 @@
               <width>60</width>
               <height>0</height>
              </size>
+            </property>
+            <property name="suffix">
+             <string> s</string>
             </property>
             <property name="decimals">
              <number>3</number>
@@ -133,7 +136,7 @@
              </size>
             </property>
             <property name="text">
-             <string>Step Length [m]</string>
+             <string>Step Length</string>
             </property>
            </widget>
           </item>
@@ -144,6 +147,9 @@
               <width>0</width>
               <height>0</height>
              </size>
+            </property>
+            <property name="suffix">
+             <string> m</string>
             </property>
             <property name="decimals">
              <number>3</number>
@@ -168,7 +174,7 @@
              </size>
             </property>
             <property name="text">
-             <string>Side Length [m]</string>
+             <string>Side Length</string>
             </property>
            </widget>
           </item>
@@ -179,6 +185,9 @@
               <width>0</width>
               <height>0</height>
              </size>
+            </property>
+            <property name="suffix">
+             <string> m</string>
             </property>
             <property name="decimals">
              <number>3</number>
@@ -203,7 +212,7 @@
              </size>
             </property>
             <property name="text">
-             <string>Step Angle [deg]</string>
+             <string>Step Angle</string>
             </property>
            </widget>
           </item>
@@ -241,7 +250,7 @@
              </size>
             </property>
             <property name="text">
-             <string>Step Number [steps]</string>
+             <string>Step Number</string>
             </property>
            </widget>
           </item>
@@ -252,6 +261,9 @@
               <width>0</width>
               <height>0</height>
              </size>
+            </property>
+            <property name="suffix">
+             <string> steps</string>
             </property>
             <property name="decimals">
              <number>0</number>
@@ -458,6 +470,9 @@
               <height>0</height>
              </size>
             </property>
+            <property name="suffix">
+             <string> kg</string>
+            </property>
             <property name="decimals">
              <number>3</number>
             </property>
@@ -484,7 +499,7 @@
              </size>
             </property>
             <property name="text">
-             <string>body_mass [kg]</string>
+             <string>body_mass</string>
             </property>
            </widget>
           </item>
@@ -495,6 +510,9 @@
               <width>0</width>
               <height>0</height>
              </size>
+            </property>
+            <property name="suffix">
+             <string> m</string>
             </property>
             <property name="decimals">
              <number>3</number>
@@ -522,7 +540,7 @@
              </size>
             </property>
             <property name="text">
-             <string>hip2body_z [m]</string>
+             <string>hip2body_z</string>
             </property>
            </widget>
           </item>
@@ -565,14 +583,14 @@
              </size>
             </property>
             <property name="text">
-             <string>hip_pitch_offset [deg]</string>
+             <string>hip_pitch_offset</string>
             </property>
            </widget>
           </item>
           <item row="5" column="0">
            <widget class="QLabel" name="label_3">
             <property name="text">
-             <string>yaw_offset [deg]</string>
+             <string>yaw_offset</string>
             </property>
            </widget>
           </item>
@@ -583,6 +601,9 @@
               <width>60</width>
               <height>0</height>
              </size>
+            </property>
+            <property name="suffix">
+             <string> m</string>
             </property>
             <property name="decimals">
              <number>3</number>
@@ -601,7 +622,7 @@
           <item row="3" column="0">
            <widget class="QLabel" name="label">
             <property name="text">
-             <string>roll_offset [deg]</string>
+             <string>roll_offset</string>
             </property>
            </widget>
           </item>
@@ -614,7 +635,7 @@
              </size>
             </property>
             <property name="text">
-             <string>z_offset [m]</string>
+             <string>z_offset</string>
             </property>
            </widget>
           </item>
@@ -643,7 +664,7 @@
              </size>
             </property>
             <property name="text">
-             <string>y_offset [m]</string>
+             <string>y_offset</string>
             </property>
            </widget>
           </item>
@@ -654,6 +675,9 @@
               <width>0</width>
               <height>0</height>
              </size>
+            </property>
+            <property name="suffix">
+             <string> m</string>
             </property>
             <property name="decimals">
              <number>3</number>
@@ -688,7 +712,7 @@
           <item row="4" column="0">
            <widget class="QLabel" name="label_2">
             <property name="text">
-             <string>pitch_offset [deg]</string>
+             <string>pitch_offset</string>
             </property>
            </widget>
           </item>
@@ -745,7 +769,7 @@
              </size>
             </property>
             <property name="text">
-             <string>x_offset [m]</string>
+             <string>x_offset</string>
             </property>
            </widget>
           </item>
@@ -756,6 +780,9 @@
               <width>0</width>
               <height>0</height>
              </size>
+            </property>
+            <property name="suffix">
+             <string> m</string>
             </property>
             <property name="decimals">
              <number>3</number>
@@ -795,6 +822,9 @@
               <width>60</width>
               <height>0</height>
              </size>
+            </property>
+            <property name="suffix">
+             <string> m</string>
             </property>
             <property name="decimals">
              <number>3</number>
@@ -841,7 +871,7 @@
              </size>
             </property>
             <property name="text">
-             <string>Foot Separation [m]</string>
+             <string>Foot Separation</string>
             </property>
            </widget>
           </item>
@@ -854,7 +884,7 @@
              </size>
             </property>
             <property name="text">
-             <string>Foot Height Max [m]</string>
+             <string>Foot Height Max</string>
             </property>
            </widget>
           </item>
@@ -865,6 +895,9 @@
               <width>0</width>
               <height>0</height>
              </size>
+            </property>
+            <property name="suffix">
+             <string> m</string>
             </property>
             <property name="decimals">
              <number>3</number>
