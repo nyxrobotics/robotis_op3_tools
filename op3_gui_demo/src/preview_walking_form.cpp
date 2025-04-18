@@ -86,33 +86,31 @@ void PreviewWalkingForm::on_button_p_walking_right_clicked(bool check)
 
 void PreviewWalkingForm::on_button_set_walking_param_clicked(bool check)
 {
-  // Reload walking parameters
-  reloadGuiOnlineWalkingParameters();
+  applyGuiWalkingParameters();
 }
 
 void PreviewWalkingForm::on_button_send_body_offset_clicked(bool check)
 {
-  geometry_msgs::Pose msg;
-  msg.position.x = p_walking_ui->dSpinBox_body_offset_x->value();
-  msg.position.y = p_walking_ui->dSpinBox_body_offset_y->value();
-  msg.position.z = p_walking_ui->dSpinBox_body_offset_z->value();
+  applyGuiOnlineWalkingParameters();
 
-  qnode_op3_->sendBodyOffsetMsg(msg);
+  // geometry_msgs::Pose msg;
+  // msg.position.x = p_walking_ui->dSpinBox_body_offset_x->value();
+  // msg.position.y = p_walking_ui->dSpinBox_body_offset_y->value();
+  // msg.position.z = p_walking_ui->dSpinBox_body_offset_z->value();
+  // qnode_op3_->sendBodyOffsetMsg(msg);
 }
 
 void PreviewWalkingForm::on_button_send_foot_distance_clicked(bool check)
 {
-  // Set footstep left and right distance
-  std_msgs::Float64 foot_distance_msg;
-  foot_distance_msg.data = p_walking_ui->dSpinBox_foot_distance->value();
-  qnode_op3_->sendFootDistanceMsg(foot_distance_msg);
+  applyGuiFootDistance();
 }
 
 void PreviewWalkingForm::on_button_p_walking_init_pose_clicked(bool check)
 {
   // Reload walking parameters
-  reloadGuiOnlineWalkingParameters();
-  reloadGuiFootstepParameters();
+  applyGuiOnlineWalkingParameters();
+  applyGuiWalkingParameters();
+  applyGuiFootstepParameters();
 
   // Initial pose motion
   std::string ini_pose_path = ros::package::getPath(ROS_PACKAGE_NAME) + "/config/init_pose.yaml";
@@ -162,8 +160,9 @@ void PreviewWalkingForm::on_button_footstep_plan_clicked(bool check)
   updateInteractiveMarker();
 
   // Reload walking parameters
-  reloadGuiOnlineWalkingParameters();
-  reloadGuiFootstepParameters();
+  applyGuiOnlineWalkingParameters();
+  applyGuiWalkingParameters();
+  applyGuiFootstepParameters();
 
   geometry_msgs::Pose target_pose;
   getPoseFromMarkerPanel(target_pose);
@@ -204,7 +203,7 @@ void PreviewWalkingForm::on_dSpinBox_marker_ori_y_valueChanged(double value)
   updateInteractiveMarker();
 }
 
-void PreviewWalkingForm::reloadGuiOnlineWalkingParameters(void)
+void PreviewWalkingForm::applyGuiOnlineWalkingParameters(void)
 {
   // Set Linear Inverted Pendulum Model (LIPM) parameters
   op3_online_walking_module_msgs::WalkingParam online_walking_param;
@@ -214,7 +213,11 @@ void PreviewWalkingForm::reloadGuiOnlineWalkingParameters(void)
   online_walking_param.zmp_offset_x = 0;
   online_walking_param.zmp_offset_y = 0;
   qnode_op3_->applyOnlineWalkingParam(online_walking_param);
+}
 
+void PreviewWalkingForm::applyGuiWalkingParameters(void)
+{
+  // Set walking parameters
   op3_walking_module_msgs::WalkingParam walking_param;
   walking_param = qnode_op3_->getWalkingParam();
   walking_param.init_x_offset = p_walking_ui->dSpinBox_body_offset_x->value();
@@ -233,7 +236,7 @@ void PreviewWalkingForm::reloadGuiOnlineWalkingParameters(void)
   qnode_op3_->applyWalkingParam(walking_param);
 }
 
-void PreviewWalkingForm::reloadGuiFootstepParameters(void)
+void PreviewWalkingForm::applyGuiFootstepParameters(void)
 {
   // Set footstep left and right distance
   qnode_op3_->setFootstepSeparation(p_walking_ui->dSpinBox_foot_distance->value());
@@ -241,6 +244,14 @@ void PreviewWalkingForm::reloadGuiFootstepParameters(void)
   qnode_op3_->setFootstepYMax(p_walking_ui->dSpinBox_p_walking_side_length->value());
   qnode_op3_->setFootstepThetaMax(p_walking_ui->dSpinBox_p_walking_step_angle->value() * M_PI / 180.0);
   qnode_op3_->applyFootstepParam();
+}
+
+void PreviewWalkingForm::applyGuiFootDistance(void)
+{
+  // Set footstep left and right distance
+  std_msgs::Float64 foot_distance_msg;
+  foot_distance_msg.data = getFootDistanceFromUi();
+  qnode_op3_->sendFootDistanceMsg(foot_distance_msg);
 }
 
 void PreviewWalkingForm::sendPWalkingCommand(const std::string& command, bool set_start_foot)
@@ -376,10 +387,10 @@ void PreviewWalkingForm::setWalkingParams2Ui(op3_walking_module_msgs::WalkingPar
   p_walking_ui->dSpinBox_p_walking_step_time->setValue(params.period_time * 0.5);  // step_time -> period_time
   p_walking_ui->dSpinBox_dsp_ratio->setValue(params.dsp_ratio);
   // walking
+  // p_walking_ui->dSpinBox_p_walking_step_length->setValue(params.x_move_amplitude);
+  // p_walking_ui->dSpinBox_p_walking_side_length->setValue(params.y_move_amplitude);
   p_walking_ui->dSpinBox_foot_height_max->setValue(params.z_move_amplitude);
-  p_walking_ui->dSpinBox_p_walking_step_length->setValue(params.x_move_amplitude);
-  p_walking_ui->dSpinBox_p_walking_side_length->setValue(params.y_move_amplitude);
-  p_walking_ui->dSpinBox_p_walking_step_angle->setValue(params.angle_move_amplitude * RAD2DEG);
+  // p_walking_ui->dSpinBox_p_walking_step_angle->setValue(params.angle_move_amplitude * RAD2DEG);
   p_walking_ui->dSpinBox_foot_distance->setValue(0.07 + params.init_y_offset);
 }
 
@@ -405,6 +416,45 @@ void PreviewWalkingForm::refreshWalkingParam()
   op3_walking_module_msgs::WalkingParam walking_param;
   walking_param = qnode_op3_->getWalkingParam();
   setWalkingParams2Ui(walking_param);
+}
+
+op3_online_walking_module_msgs::WalkingParam PreviewWalkingForm::getOnlineWalkingParamsFromUi()
+{
+  op3_online_walking_module_msgs::WalkingParam online_walking_param;
+  online_walking_param.dsp_ratio = p_walking_ui->dSpinBox_dsp_ratio->value();
+  online_walking_param.foot_height_max = p_walking_ui->dSpinBox_foot_height_max->value();
+  online_walking_param.lipm_height = p_walking_ui->dSpinBox_hip2body_z->value();
+  return online_walking_param;
+}
+
+op3_walking_module_msgs::WalkingParam PreviewWalkingForm::getWalkingParamsFromUi()
+{
+  op3_walking_module_msgs::WalkingParam walking_param;
+  walking_param = qnode_op3_->getWalkingParam();
+  walking_param.init_x_offset = p_walking_ui->dSpinBox_body_offset_x->value();
+  walking_param.init_y_offset = p_walking_ui->dSpinBox_body_offset_y->value();
+  walking_param.init_z_offset = p_walking_ui->dSpinBox_body_offset_z->value();
+  walking_param.init_roll_offset = p_walking_ui->dSpinBox_body_offset_roll->value() * DEG2RAD;
+  walking_param.init_pitch_offset = p_walking_ui->dSpinBox_body_offset_pitch->value() * DEG2RAD;
+  walking_param.init_yaw_offset = p_walking_ui->dSpinBox_body_offset_yaw->value() * DEG2RAD;
+  walking_param.hip_pitch_offset = p_walking_ui->dSpinBox_hip_offset_pitch->value() * DEG2RAD;
+  walking_param.period_time = p_walking_ui->dSpinBox_p_walking_step_time->value() * 2.0;
+  walking_param.dsp_ratio = p_walking_ui->dSpinBox_dsp_ratio->value();
+  // walking_param.x_move_amplitude = p_walking_ui->dSpinBox_p_walking_step_length->value();
+  // walking_param.y_move_amplitude = p_walking_ui->dSpinBox_p_walking_side_length->value();
+  walking_param.z_move_amplitude = p_walking_ui->dSpinBox_foot_height_max->value();
+  // walking_param.angle_move_amplitude = p_walking_ui->dSpinBox_p_walking_step_angle->value() * DEG2RAD;
+  return walking_param;
+}
+
+double PreviewWalkingForm::getBodyMassFromUi()
+{
+  return p_walking_ui->dSpinBox_body_mass->value();
+}
+
+double PreviewWalkingForm::getFootDistanceFromUi()
+{
+  return p_walking_ui->dSpinBox_foot_distance->value();
 }
 
 /*****************************************************************************

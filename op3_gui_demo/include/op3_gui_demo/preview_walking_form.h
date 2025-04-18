@@ -82,8 +82,10 @@ private:
   robotis_op::QNodeOP3* qnode_op3_;
 
   // reload walking parameters from GUI
-  void reloadGuiOnlineWalkingParameters(void);
-  void reloadGuiFootstepParameters(void);
+  void applyGuiOnlineWalkingParameters(void);
+  void applyGuiWalkingParameters(void);
+  void applyGuiFootstepParameters(void);
+  void applyGuiFootDistance(void);
 
   // preview walking
   void sendPWalkingCommand(const std::string& command, bool set_start_foot = true);
@@ -105,6 +107,11 @@ private:
   void setBodyMass2Ui(double mass);
   void setFootDistance2Ui(double distance);
   void refreshWalkingParam();
+
+  op3_online_walking_module_msgs::WalkingParam getOnlineWalkingParamsFromUi();
+  op3_walking_module_msgs::WalkingParam getWalkingParamsFromUi();
+  double getBodyMassFromUi();
+  double getFootDistanceFromUi();
 
   /******************************************
    ** Transformation
