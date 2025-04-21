@@ -87,17 +87,23 @@ void PreviewWalkingForm::on_button_p_walking_right_clicked(bool check)
 void PreviewWalkingForm::on_button_set_walking_param_clicked(bool check)
 {
   applyGuiWalkingParameters();
+
+  // Set initial pose
+  geometry_msgs::Pose msg;
+  msg.position.x = p_walking_ui->dSpinBox_foot_x_offset->value();
+  msg.position.y = p_walking_ui->dSpinBox_foot_y_offset->value();
+  msg.position.z = p_walking_ui->dSpinBox_foot_z_offset->value();
+  geometry_msgs::Quaternion q;
+  q = tf::createQuaternionMsgFromRollPitchYaw(p_walking_ui->dSpinBox_foot_roll_offset->value() * DEG2RAD,
+                                              p_walking_ui->dSpinBox_foot_pitch_offset->value() * DEG2RAD,
+                                              p_walking_ui->dSpinBox_foot_yaw_offset->value() * DEG2RAD);
+  msg.orientation = q;
+  qnode_op3_->sendBodyOffsetMsg(msg);
 }
 
 void PreviewWalkingForm::on_button_send_body_offset_clicked(bool check)
 {
   applyGuiOnlineWalkingParameters();
-
-  // geometry_msgs::Pose msg;
-  // msg.position.x = p_walking_ui->dSpinBox_body_offset_x->value();
-  // msg.position.y = p_walking_ui->dSpinBox_body_offset_y->value();
-  // msg.position.z = p_walking_ui->dSpinBox_body_offset_z->value();
-  // qnode_op3_->sendBodyOffsetMsg(msg);
 }
 
 void PreviewWalkingForm::on_button_send_foot_distance_clicked(bool check)
@@ -220,13 +226,13 @@ void PreviewWalkingForm::applyGuiWalkingParameters(void)
   // Set walking parameters
   op3_walking_module_msgs::WalkingParam walking_param;
   walking_param = qnode_op3_->getWalkingParam();
-  walking_param.init_x_offset = p_walking_ui->dSpinBox_body_offset_x->value();
-  walking_param.init_y_offset = p_walking_ui->dSpinBox_body_offset_y->value();
-  walking_param.init_z_offset = p_walking_ui->dSpinBox_body_offset_z->value();
-  walking_param.init_roll_offset = p_walking_ui->dSpinBox_body_offset_roll->value() * DEG2RAD;
-  walking_param.init_pitch_offset = p_walking_ui->dSpinBox_body_offset_pitch->value() * DEG2RAD;
-  walking_param.init_yaw_offset = p_walking_ui->dSpinBox_body_offset_yaw->value() * DEG2RAD;
-  walking_param.hip_pitch_offset = p_walking_ui->dSpinBox_hip_offset_pitch->value() * DEG2RAD;
+  walking_param.init_x_offset = p_walking_ui->dSpinBox_foot_x_offset->value();
+  walking_param.init_y_offset = p_walking_ui->dSpinBox_foot_y_offset->value();
+  walking_param.init_z_offset = p_walking_ui->dSpinBox_foot_z_offset->value();
+  walking_param.init_roll_offset = p_walking_ui->dSpinBox_foot_roll_offset->value() * DEG2RAD;
+  walking_param.init_pitch_offset = p_walking_ui->dSpinBox_foot_pitch_offset->value() * DEG2RAD;
+  walking_param.init_yaw_offset = p_walking_ui->dSpinBox_foot_yaw_offset->value() * DEG2RAD;
+  walking_param.hip_pitch_offset = p_walking_ui->dSpinBox_hip_pitch_offset->value() * DEG2RAD;
   walking_param.period_time = p_walking_ui->dSpinBox_p_walking_step_time->value() * 2.0;
   walking_param.dsp_ratio = p_walking_ui->dSpinBox_dsp_ratio->value();
   // walking_param.x_move_amplitude = p_walking_ui->dSpinBox_p_walking_step_length->value();
@@ -376,13 +382,13 @@ void PreviewWalkingForm::setPointToMarkerPanel(const geometry_msgs::Point& curre
 void PreviewWalkingForm::setWalkingParams2Ui(op3_walking_module_msgs::WalkingParam params)
 {
   // init pose
-  p_walking_ui->dSpinBox_body_offset_x->setValue(params.init_x_offset);
-  p_walking_ui->dSpinBox_body_offset_y->setValue(params.init_y_offset);
-  p_walking_ui->dSpinBox_body_offset_z->setValue(params.init_z_offset);
-  p_walking_ui->dSpinBox_body_offset_roll->setValue(params.init_roll_offset * RAD2DEG);
-  p_walking_ui->dSpinBox_body_offset_pitch->setValue(params.init_pitch_offset * RAD2DEG);
-  p_walking_ui->dSpinBox_body_offset_yaw->setValue(params.init_yaw_offset * RAD2DEG);
-  p_walking_ui->dSpinBox_hip_offset_pitch->setValue(params.hip_pitch_offset * RAD2DEG);
+  p_walking_ui->dSpinBox_foot_x_offset->setValue(params.init_x_offset);
+  p_walking_ui->dSpinBox_foot_y_offset->setValue(params.init_y_offset);
+  p_walking_ui->dSpinBox_foot_z_offset->setValue(params.init_z_offset);
+  p_walking_ui->dSpinBox_foot_roll_offset->setValue(params.init_roll_offset * RAD2DEG);
+  p_walking_ui->dSpinBox_foot_pitch_offset->setValue(params.init_pitch_offset * RAD2DEG);
+  p_walking_ui->dSpinBox_foot_yaw_offset->setValue(params.init_yaw_offset * RAD2DEG);
+  p_walking_ui->dSpinBox_hip_pitch_offset->setValue(params.hip_pitch_offset * RAD2DEG);
   // time
   p_walking_ui->dSpinBox_p_walking_step_time->setValue(params.period_time * 0.5);  // step_time -> period_time
   p_walking_ui->dSpinBox_dsp_ratio->setValue(params.dsp_ratio);
@@ -431,13 +437,13 @@ op3_walking_module_msgs::WalkingParam PreviewWalkingForm::getWalkingParamsFromUi
 {
   op3_walking_module_msgs::WalkingParam walking_param;
   walking_param = qnode_op3_->getWalkingParam();
-  walking_param.init_x_offset = p_walking_ui->dSpinBox_body_offset_x->value();
-  walking_param.init_y_offset = p_walking_ui->dSpinBox_body_offset_y->value();
-  walking_param.init_z_offset = p_walking_ui->dSpinBox_body_offset_z->value();
-  walking_param.init_roll_offset = p_walking_ui->dSpinBox_body_offset_roll->value() * DEG2RAD;
-  walking_param.init_pitch_offset = p_walking_ui->dSpinBox_body_offset_pitch->value() * DEG2RAD;
-  walking_param.init_yaw_offset = p_walking_ui->dSpinBox_body_offset_yaw->value() * DEG2RAD;
-  walking_param.hip_pitch_offset = p_walking_ui->dSpinBox_hip_offset_pitch->value() * DEG2RAD;
+  walking_param.init_x_offset = p_walking_ui->dSpinBox_foot_x_offset->value();
+  walking_param.init_y_offset = p_walking_ui->dSpinBox_foot_y_offset->value();
+  walking_param.init_z_offset = p_walking_ui->dSpinBox_foot_z_offset->value();
+  walking_param.init_roll_offset = p_walking_ui->dSpinBox_foot_roll_offset->value() * DEG2RAD;
+  walking_param.init_pitch_offset = p_walking_ui->dSpinBox_foot_pitch_offset->value() * DEG2RAD;
+  walking_param.init_yaw_offset = p_walking_ui->dSpinBox_foot_yaw_offset->value() * DEG2RAD;
+  walking_param.hip_pitch_offset = p_walking_ui->dSpinBox_hip_pitch_offset->value() * DEG2RAD;
   walking_param.period_time = p_walking_ui->dSpinBox_p_walking_step_time->value() * 2.0;
   walking_param.dsp_ratio = p_walking_ui->dSpinBox_dsp_ratio->value();
   // walking_param.x_move_amplitude = p_walking_ui->dSpinBox_p_walking_step_length->value();
