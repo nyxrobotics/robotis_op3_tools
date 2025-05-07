@@ -37,7 +37,6 @@ void QNodeOP3::init_preview_walking(ros::NodeHandle& ros_node)
       ros_node.advertise<op3_online_walking_module_msgs::Step2DArray>("/robotis/online_walking/footsteps_2d", 0);
 
   body_offset_pub_ = ros_node.advertise<geometry_msgs::Pose>("/robotis/online_walking/body_offset", 0);
-  foot_distance_pub_ = ros_node.advertise<std_msgs::Float64>("/robotis/online_walking/foot_distance", 0);
   wholebody_balance_pub_ = ros_node.advertise<std_msgs::String>("/robotis/online_walking/wholebody_balance_msg", 0);
   reset_body_msg_pub_ = ros_node.advertise<std_msgs::Bool>("/robotis/online_walking/reset_body", 0);
   joint_pose_msg_pub_ =
@@ -686,13 +685,6 @@ void QNodeOP3::sendBodyOffsetMsg(geometry_msgs::Pose msg)
 {
   body_offset_pub_.publish(msg);
   log(Info, "Send Body Offset");
-}
-
-void QNodeOP3::sendFootDistanceMsg(std_msgs::Float64 msg)
-{
-  foot_distance_pub_.publish(msg);
-
-  log(Info, "Send Foot Distance");
 }
 
 void QNodeOP3::applyFootstepParam(void)

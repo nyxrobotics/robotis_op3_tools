@@ -84,7 +84,6 @@ private:
   // reload walking parameters from GUI
   void applyGuiOnlineWalkingParameters(void);
   void applyGuiFootstepParameters(void);
-  void applyGuiFootDistance(void);
 
   // preview walking
   void sendPWalkingCommand(const std::string& command, bool set_start_foot = true);

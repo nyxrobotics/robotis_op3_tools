@@ -108,7 +108,7 @@ void PreviewWalkingForm::on_button_send_body_offset_clicked(bool check)
 
 void PreviewWalkingForm::on_button_send_foot_distance_clicked(bool check)
 {
-  applyGuiFootDistance();
+  applyGuiFootstepParameters();
 }
 
 void PreviewWalkingForm::on_button_p_walking_init_pose_clicked(bool check)
@@ -127,9 +127,7 @@ void PreviewWalkingForm::on_button_p_walking_init_pose_clicked(bool check)
   qnode_op3_->sendResetBodyMsg(ini_pose_msg);
 
   // Initial foot separation
-  std_msgs::Float64 foot_distance_msg;
-  foot_distance_msg.data = p_walking_ui->dSpinBox_foot_distance->value();
-  qnode_op3_->sendFootDistanceMsg(foot_distance_msg);
+  applyGuiFootstepParameters();
 }
 
 void PreviewWalkingForm::on_button_p_walking_balance_on_clicked(bool check)
@@ -233,14 +231,6 @@ void PreviewWalkingForm::applyGuiFootstepParameters(void)
   qnode_op3_->setFootstepYMax(p_walking_ui->dSpinBox_p_walking_side_length->value());
   qnode_op3_->setFootstepThetaMax(p_walking_ui->dSpinBox_p_walking_step_angle->value() * M_PI / 180.0);
   qnode_op3_->applyFootstepParam();
-}
-
-void PreviewWalkingForm::applyGuiFootDistance(void)
-{
-  // Set footstep left and right distance
-  std_msgs::Float64 foot_distance_msg;
-  foot_distance_msg.data = getFootDistanceFromUi();
-  qnode_op3_->sendFootDistanceMsg(foot_distance_msg);
 }
 
 void PreviewWalkingForm::sendPWalkingCommand(const std::string& command, bool set_start_foot)
