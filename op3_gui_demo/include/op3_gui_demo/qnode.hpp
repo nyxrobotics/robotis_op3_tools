@@ -140,7 +140,7 @@ public:
   // Preview Walking
   void init_preview_walking(ros::NodeHandle& ros_node);
   void sendFootStepCommandMsg(op3_online_walking_module_msgs::FootStepCommand msg);
-  void applyOnlineWalkingParam(op3_online_walking_module_msgs::WalkingParam msg);
+  void applyOnlineWalkingParam(op3_walking_module_msgs::WalkingParam msg);
   void sendBodyOffsetMsg(geometry_msgs::Pose msg);
   void sendFootDistanceMsg(std_msgs::Float64 msg);
   void applyFootstepParam(void);

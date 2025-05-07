@@ -32,7 +32,7 @@ void QNodeOP3::init_preview_walking(ros::NodeHandle& ros_node)
                                                                                                "foot_step_command",
                                                                                                0);
   walking_param_pub_ =
-      ros_node.advertise<op3_online_walking_module_msgs::WalkingParam>("/robotis/online_walking/walking_param", 0);
+      ros_node.advertise<op3_walking_module_msgs::WalkingParam>("/robotis/online_walking/walking_param", 0);
   set_walking_footsteps_pub_ =
       ros_node.advertise<op3_online_walking_module_msgs::Step2DArray>("/robotis/online_walking/footsteps_2d", 0);
 
@@ -676,7 +676,7 @@ void QNodeOP3::sendFootStepCommandMsg(op3_online_walking_module_msgs::FootStepCo
   log(Info, "Send Foot Step Command Msg");
 }
 
-void QNodeOP3::applyOnlineWalkingParam(op3_online_walking_module_msgs::WalkingParam msg)
+void QNodeOP3::applyOnlineWalkingParam(op3_walking_module_msgs::WalkingParam msg)
 {
   walking_param_pub_.publish(msg);
   log(Info, "Set Online Walking Parameter");

@@ -83,7 +83,6 @@ private:
 
   // reload walking parameters from GUI
   void applyGuiOnlineWalkingParameters(void);
-  void applyGuiWalkingParameters(void);
   void applyGuiFootstepParameters(void);
   void applyGuiFootDistance(void);
 
